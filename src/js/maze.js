@@ -16,10 +16,11 @@ class Maze {
       type = !(this.totalColumns % 2) ? !type : type;
       for (let col = 0; col < this.totalColumns; col++) {
         let cell = document.createElement("td");
+        cell.setAttribute('draggable', false)
         cell.classList.add("cell", "path");
         // type ? cell.classList.add('cell1') : cell.classList.add('cell2')
-        !row ? cell.classList.add("upWall") : null;
-        row == this.totalRows - 1 ? cell.classList.add("downWall") : null;
+        !row ? cell.classList.add("topWall") : null;
+        row == this.totalRows - 1 ? cell.classList.add("bottomWall") : null;
         col == this.totalColumns - 1 ? cell.classList.add("rightWall") : null;
         !col ? cell.classList.add("leftWall") : null;
 
@@ -59,8 +60,8 @@ class Maze {
           end: this.grid[row][col].isEnd(),
           leftWall: this.grid[row][col].isLeftWall(),
           rightWall: this.grid[row][col].isRightWall(),
-          downWall: this.grid[row][col].isDownWall(),
-          upWall: this.grid[row][col].isUpWall(),
+          bottomWall: this.grid[row][col].isBottomWall(),
+          topWall: this.grid[row][col].isTopWall(),
         };
       }
     }
@@ -80,8 +81,8 @@ class Maze {
         this.grid[row][col].toggleEnd(classList.end);
         this.grid[row][col].toggleLeftWall(classList.leftWall);
         this.grid[row][col].toggleRightWall(classList.rightWall);
-        this.grid[row][col].toggleDownWall(classList.downWall);
-        this.grid[row][col].toggleUpWall(classList.upWall);
+        this.grid[row][col].toggleBottomWall(classList.bottomWall);
+        this.grid[row][col].toggleTopWall(classList.topWall);
       }
     }
   }
@@ -102,5 +103,13 @@ class Maze {
     while (parent.firstChild) {
       parent.removeChild(parent.firstChild);
     }
+  }
+
+  getCellObject(element){
+    const position = element.id.split('_').map(function(cord){
+      return Number(cord)
+    })
+    // position[0] = row, position[1] = cord
+    return maze.grid[position[0]][position[1]]
   }
 }

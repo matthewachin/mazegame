@@ -7,11 +7,11 @@ class Cell {
   }
 
   // These methods assume that maze variable is a Maze object
-
+  
   isPath() {
     return this.e.classList.contains("path");
   }
-
+  
   isStart() {
     return this.e.classList.contains("start");
   }
@@ -19,7 +19,7 @@ class Cell {
   isEnd() {
     return this.e.classList.contains("end");
   }
-
+  
   isRightWall() {
     return this.e.classList.contains("rightWall");
   }
@@ -28,12 +28,12 @@ class Cell {
     return this.e.classList.contains("leftWall");
   }
 
-  isDownWall() {
-    return this.e.classList.contains("downWall");
+  isBottomWall() {
+    return this.e.classList.contains("bottomWall");
   }
 
-  isUpWall() {
-    return this.e.classList.contains("upWall");
+  isTopWall() {
+    return this.e.classList.contains("topWall");
   }
 
   isVisited() {
@@ -63,12 +63,44 @@ class Cell {
     this.e.classList.toggle("leftWall", force);
   }
 
-  toggleDownWall(force) {
-    this.e.classList.toggle("downWall", force);
+  toggleBottomWall(force) {
+    this.e.classList.toggle("bottomWall", force);
   }
 
-  toggleUpWall(force) {
-    this.e.classList.toggle("upWall", force);
+  toggleTopWall(force) {
+    this.e.classList.toggle("topWall", force);
+  }
+
+  toggleRightPending(force) {
+    this.e.classList.toggle("rightPending", force);
+  }
+
+  toggleLeftPending(force) {
+    this.e.classList.toggle("leftPending", force);
+  }
+
+  toggleBottomPending(force) {
+    this.e.classList.toggle("bottomPending", force);
+  }
+
+  toggleTopPending(force) {
+    this.e.classList.toggle("topPending", force);
+  }
+
+  toggleRightHover(force) {
+    this.e.classList.toggle("rightHover", force);
+  }
+
+  toggleLeftHover(force) {
+    this.e.classList.toggle("leftHover", force);
+  }
+
+  toggleBottomHover(force) {
+    this.e.classList.toggle("bottomHover", force);
+  }
+
+  toggleTopHover(force) {
+    this.e.classList.toggle("topHover", force);
   }
 
   hasLeft() {
@@ -79,37 +111,37 @@ class Cell {
     return this.col < maze.totalColumns - 1 && !this.isRightWall();
   }
 
-  hasDown() {
-    return this.row < maze.totalRows - 1 && !this.isDownWall();
+  hasBottom() {
+    return this.row < maze.totalRows - 1 && !this.isBottomWall();
   }
 
-  hasUp() {
-    return this.row > 0 && !this.isUpWall();
+  hasTop() {
+    return this.row > 0 && !this.isTopWall();
   }
 
   getLeft() {
-    return this.hasLeft() ? maze.grid[this.row][this.col - 1] : null;
+    return this.hasLeft() ? maze.grid[this.row][this.col - 1] : new Dummy();
   }
 
   getRight() {
-    return this.hasRight() ? maze.grid[this.row][this.col + 1] : null;
+    return this.hasRight() ? maze.grid[this.row][this.col + 1] : new Dummy();
   }
 
-  getUp() {
-    return this.hasUp() ? maze.grid[this.row - 1][this.col] : null;
+  getTop() {
+    return this.hasTop() ? maze.grid[this.row - 1][this.col] : new Dummy();
   }
 
-  getDown() {
-    return this.hasDown() ? maze.grid[this.row + 1][this.col] : null;
+  getBottom() {
+    return this.hasBottom() ? maze.grid[this.row + 1][this.col] : new Dummy();
   }
 
   getNeighbors() {
     return [
       this.getLeft(),
       this.getRight(),
-      this.getUp(),
-      this.getDown(),
-    ].filter((neighbor) => neighbor !== null);
+      this.getTop(),
+      this.getBottom(),
+    ].filter((neighbor) => !neighbor instanceof Dummy);
   }
 
   getRow() {

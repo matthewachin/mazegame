@@ -1,4 +1,11 @@
-
+:root{
+  --wall: black;
+  --pending: orange;
+  --hover: red;
+  --start: greenyellow;
+  --end: darkred;
+  --gridLine: lightgrey;
+}
 table{
   border-collapse: collapse;
   border-spacing: 0;
@@ -10,32 +17,52 @@ table{
   padding: 15px;
   margin:0;
   border: 3px solid transparent;
-  border: 2.99px solid lightgrey;
+  border: 3px dashed var(--gridLine);
+  user-select: none;
 }
-.path{
- 
-}
+
 .start{
-  background-color:greenyellow;
+  background-color:var(--start);
 }
 .end{
-  background-color:red;
+  background-color:var(--end);
 }
-.upWall{
-  border-top: 3px solid black;
+.topWall{
+  border-top: 3px solid var(--wall);
 }
-.downWall{
-  border-bottom: 3px solid black;
+.bottomWall{
+  border-bottom: 3px solid var(--wall);
 }
 .rightWall{
-  border-right: 3px solid black;
+  border-right: 3px solid var(--wall);
 }
 .leftWall{
-  border-left: 3px solid black;
+  border-left: 3px solid var(--wall);
 }
-.cell1{
-  /* background-color: rgb(181, 136, 98) */
+.topHover{
+  border-top: 3px solid var(--hover);
 }
-.cell2{
-  /* background-color: rgb(240, 217, 180) */
+.topPending.topHover{
+  border-top: 3px solid var(--hover);
+}
+.bottomHover{
+  border-bottom: 3px solid var(--hover);
+}
+.rightHover{
+  border-right: 3px solid var(--hover);
+}
+.leftHover{
+  border-left: 3px solid var(--hover);
+}
+.topPending{
+  border-top: 3px solid var(--pending);
+}
+.bottomPending{
+  border-bottom: 3px solid var(--pending);
+}
+.rightPending{
+  border-right: 3px solid var(--pending);
+}
+.leftPending{
+  border-left: 3px solid var(--pending);
 }
