@@ -16,7 +16,6 @@ table{
 .cell{
   padding: 15px;
   margin:0;
-  border: 3px solid transparent;
   border: 3px dashed var(--gridLine);
   user-select: none;
 }
@@ -39,21 +38,6 @@ table{
 .leftWall{
   border-left: 3px solid var(--wall);
 }
-.topHover{
-  border-top: 3px solid var(--hover);
-}
-.topPending.topHover{
-  border-top: 3px solid var(--hover);
-}
-.bottomHover{
-  border-bottom: 3px solid var(--hover);
-}
-.rightHover{
-  border-right: 3px solid var(--hover);
-}
-.leftHover{
-  border-left: 3px solid var(--hover);
-}
 .topPending{
   border-top: 3px solid var(--pending);
 }
@@ -65,4 +49,16 @@ table{
 }
 .leftPending{
   border-left: 3px solid var(--pending);
+}
+.topHover{
+  border-top: 3px solid var(--hover);
+}
+.bottomHover{
+  border-bottom: 3px solid var(--hover);
+}
+.rightHover{
+  border-right: 3px solid var(--hover);
+}
+.leftHover{
+  border-left: 3px solid var(--hover);
 }
