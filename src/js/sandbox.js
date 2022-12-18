@@ -1,6 +1,6 @@
 let cellSize = 15
 
-let maze = new Maze(20, 20);
+let maze = new Maze(30, 30);
 
 function setCellSize(size){
   cellSize = size;
@@ -8,3 +8,4 @@ function setCellSize(size){
     e.style.padding = cellSize + 'px'; 
   })
 }
+maze.generatePrimMaze()

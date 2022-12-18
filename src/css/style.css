@@ -1,10 +1,16 @@
 :root{
-  --wall: black;
-  --pending: orange;
-  --hover: red;
+  --mainText : white; 
+  --wall: rgb(61, 152, 227);
+  --pending: rgb(0, 255, 119);
+  --hover: rgb(255, 0, 72);
   --start: greenyellow;
   --end: darkred;
-  --gridLine: lightgrey;
+  --gridLine: rgb(67, 53, 53);
+  --background: rgb(40, 40, 40); 
+  --borderSize: 2.5px;
+  --cellSize: 15px;
+  --visited: rgb(61, 49, 119);
+  --neighbor: rgb(153, 54, 54);
 }
 table{
   border-collapse: collapse;
@@ -13,13 +19,19 @@ table{
 *{
   margin:0;
 }
+body{
+  background-color: var(--background);
+}
+h1{
+  color: var(--mainText)
+}
 .cell{
-  padding: 15px;
+  padding: var(--cellSize);
   margin:0;
-  border: 3px dashed var(--gridLine);
+  border: var(--borderSize) solid transparent;
+  border: var(--borderSize) dashed var(--gridLine);
   user-select: none;
 }
-
 .start{
   background-color:var(--start);
 }
@@ -27,38 +39,44 @@ table{
   background-color:var(--end);
 }
 .topWall{
-  border-top: 3px solid var(--wall);
+  border-top: var(--borderSize) solid var(--wall);
 }
 .bottomWall{
-  border-bottom: 3px solid var(--wall);
+  border-bottom: var(--borderSize) solid var(--wall);
 }
 .rightWall{
-  border-right: 3px solid var(--wall);
+  border-right: var(--borderSize) solid var(--wall);
 }
 .leftWall{
-  border-left: 3px solid var(--wall);
+  border-left: var(--borderSize) solid var(--wall);
 }
 .topPending{
-  border-top: 3px solid var(--pending);
+  border-top: var(--borderSize) solid var(--pending);
 }
 .bottomPending{
-  border-bottom: 3px solid var(--pending);
+  border-bottom: var(--borderSize) solid var(--pending);
 }
 .rightPending{
-  border-right: 3px solid var(--pending);
+  border-right: var(--borderSize) solid var(--pending);
 }
 .leftPending{
-  border-left: 3px solid var(--pending);
+  border-left: var(--borderSize) solid var(--pending);
 }
 .topHover{
-  border-top: 3px solid var(--hover);
+  border-top: var(--borderSize) solid var(--hover);
 }
 .bottomHover{
-  border-bottom: 3px solid var(--hover);
+  border-bottom: var(--borderSize) solid var(--hover);
 }
 .rightHover{
-  border-right: 3px solid var(--hover);
+  border-right: var(--borderSize) solid var(--hover);
 }
 .leftHover{
-  border-left: 3px solid var(--hover);
+  border-left: var(--borderSize) solid var(--hover);
+}
+.visited{
+  background-color: var(--visited);
+}
+.neighbor{
+  background-color: var(--neighbor);
 }

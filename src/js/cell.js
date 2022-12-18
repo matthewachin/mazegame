@@ -40,6 +40,10 @@ class Cell {
     return this.e.classList.contains("visited");
   }
 
+  isNeighbor() {
+    return this.e.classList.contains('neighbor')
+  }
+
   isSolved() {
     return this.e.classList.contains("solved");
   }
@@ -53,6 +57,14 @@ class Cell {
 
   toggleEnd(force) {
     this.e.classList.toggle("end", force);
+  }
+
+  toggleVisited(force){
+    this.e.classList.toggle("visited", force);
+  }
+
+  toggleNeighbor(force){
+    this.e.classList.toggle('neighbor', force)
   }
 
   toggleRightWall(force) {
@@ -161,45 +173,61 @@ class Cell {
     }
   }
 
-  hasLeft() {
-    return this.col > 0
+  hasLeft(isWallValid=false) {
+    return isWallValid ? this.col > 0 && !this.isLeftWall() : this.col > 0
   }
 
-  hasRight() {
-    return this.col < maze.totalColumns - 1
+  hasRight(isWallValid=false) {
+    return isWallValid ? this.col < maze.totalColumns - 1 && !this.isRightWall() : this.col < maze.totalColumns - 1
   }
 
-  hasBottom() {
-    return this.row < maze.totalRows - 1
+  hasBottom(isWallValid=false) {
+    return isWallValid ? this.row < maze.totalRows - 1 && !this.isBottomWall() : this.row < maze.totalRows - 1
   }
 
-  hasTop() {
-    return this.row > 0
+  hasTop(isWallValid=false) {
+    return isWallValid ? this.row > 0 && !this.isTopWall() : this.row > 0
   }
 
-  getLeft() {
-    return this.hasLeft() ? maze.grid[this.row][this.col - 1] : null;
+  getLeft(isWallValid=false) {
+    return this.hasLeft(isWallValid) ? maze.grid[this.row][this.col - 1] : null;
   }
 
-  getRight() {
-    return this.hasRight() ? maze.grid[this.row][this.col + 1] : null;
+  getRight(isWallValid=false) {
+    return this.hasRight(isWallValid) ? maze.grid[this.row][this.col + 1] : null;
   }
 
-  getTop() {
-    return this.hasTop() ? maze.grid[this.row - 1][this.col] : null; 
+  getTop(isWallValid=false) {
+    return this.hasTop(isWallValid) ? maze.grid[this.row - 1][this.col] : null; 
   }
 
-  getBottom() {
-    return this.hasBottom() ? maze.grid[this.row + 1][this.col] : null;
+  getBottom(isWallValid=false) {
+    return this.hasBottom(isWallValid) ? maze.grid[this.row + 1][this.col] : null;
   }
 
-  getNeighbors() {
+  isTopNeighbor(row, col){
+    return this.row-1 == row && this.col == col
+  }
+
+  isBottomNeighbor(row, col){
+    return this.row+1 == row && this.col == col
+  }
+
+  isRightNeighbor(row, col){
+    return this.row == row && this.col+1 == col
+  }
+  
+  isLeftNeighbor(row, col){
+    return this.row == row && this.col-1 == col
+  }
+
+  getNeighbors(isWallValid=false) {
     return [
-      this.getLeft(),
-      this.getRight(),
-      this.getTop(),
-      this.getBottom(),
-    ].filter((neighbor) => !neighbor instanceof Dummy);
+      this.getLeft(isWallValid),
+      this.getRight(isWallValid),
+      this.getTop(isWallValid),
+      this.getBottom(isWallValid),
+    ].filter((neighbor) => neighbor !== null);
   }
 
   getRow() {
@@ -212,5 +240,8 @@ class Cell {
 
   getElement() {
     return this.e;
+  }
+  getManhattanDist(endRow, endCol){
+    return Math.abs(endRow-this.row) + Math.abs(endCol-this.col)
   }
 }
