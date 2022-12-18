@@ -30,7 +30,7 @@ function enableDrawControls() {
       };
       startCell = maze.getCellObject(element);
       mode = getMode(click, startCell);
-      startCell.toggleClass(true, mode, 'pending')
+      editWall(mode, startCell);
     }
   };
   // The following code is run when the mouse is released:
@@ -40,8 +40,8 @@ function enableDrawControls() {
     Array.from(document.getElementsByClassName(`${mode}Pending`)).forEach(
       function (element) {
         const cell = maze.getCellObject(element);
-        cell.toggleClass(false, mode, 'pending')
-        cell.toggleClass(true, mode, 'wall')
+
+        editWall(mode, cell, false, true);
       }
     );
   };
@@ -70,12 +70,14 @@ function enableDrawControls() {
                 : startRow > cell.getRow()
                 ? false
                 : true;
-            updatePending(
-              startRow,
+            const adjustment = isAdding ? 0 : colChange > 0 ? -1 : 1;
+            editMultiWall(
+              lastHoverCell.getRow(),
               startCol,
-              cell.getRow(),
-              cell.getColumn(),
+              cell.getRow() - adjustment,
+              cell.getColumn() - adjustment,
               mode,
+              true,
               isAdding
             );
           } else {
@@ -87,12 +89,14 @@ function enableDrawControls() {
                 : startCol > cell.getColumn()
                 ? false
                 : true;
-            updatePending(
+            const adjustment = isAdding ? 0 : rowChange > 0 ? -1 : 1;
+            editMultiWall(
               startRow,
-              startCol,
-              cell.getRow(),
-              cell.getColumn(),
+              lastHoverCell.getColumn(),
+              cell.getRow() - adjustment,
+              cell.getColumn() - adjustment,
               mode,
+              true,
               isAdding
             );
           }
@@ -106,23 +110,72 @@ function enableDrawControls() {
 // A function that indicates which wall of a cell is being selected
 function showHover(mouseInfo, cell) {
   if (lastHoverCell !== null) {
-    
-    lastHoverCell.toggleClass(false, lastHoverMode, 'hover')
+    Array.from(
+      document.getElementsByClassName(`${lastHoverMode}Hover`)
+    ).forEach(function (element) {
+      element.classList.remove(`${lastHoverMode}Hover`);
+    });
   }
-  // if (lastHoverCell !== null) {
-  //   Array.from(
-  //     document.getElementsByClassName(`${lastHoverMode}Hover`)
-  //   ).forEach(function (element) {
-      
-  //     maze.getCellObject(element).toggleClass(false, lastHoverMode, 'hover')
-  //   });
-  // }
   const newMode = getMode(mouseInfo, cell);
-  cell.toggleClass(true, newMode, 'hover')
+  if (newMode == "top") {
+    cell.toggleTopHover(true);
+  } else if (newMode == "bottom") {
+    cell.toggleBottomHover(true);
+  } else if (newMode == "left") {
+    cell.toggleLeftHover(true);
+  } else if (newMode == "right") {
+    cell.toggleRightHover(true);
+  }
   lastHoverCell = cell;
   lastHoverMode = newMode;
 }
 
+
+// Edit one wall
+// mode = top, bottom, left, right
+// cell = cell object
+// isPending indicates whether it should only be made to be pending
+// isAdding indicates whether it should add walls
+function editWall(mode, cell, isPending = true, isAdding = true) {
+  // cell = cell object
+  if (isPending) {
+    if (mode == "top") {
+      cell.getTop().toggleBottomPending(isAdding);
+      cell.toggleTopPending(isAdding);
+    } else if (mode == "left") {
+      cell.getLeft().toggleRightPending(isAdding);
+      cell.toggleLeftPending(isAdding);
+    } else if (mode == "right") {
+      cell.getRight().toggleLeftPending(isAdding);
+      cell.toggleRightPending(isAdding);
+    } else if (mode == "bottom") {
+      cell.getBottom().toggleTopPending(isAdding);
+      cell.toggleBottomPending(isAdding);
+    }
+  } else {
+    if (mode == "top") {
+      cell.getTop().toggleBottomWall(isAdding);
+      cell.getTop().toggleBottomPending(!isAdding);
+      cell.toggleTopWall(isAdding);
+      cell.toggleTopPending(!isAdding);
+    } else if (mode == "left") {
+      cell.getLeft().toggleRightWall(isAdding);
+      cell.getLeft().toggleRightPending(!isAdding);
+      cell.toggleLeftWall(isAdding);
+      cell.toggleLeftPending(!isAdding);
+    } else if (mode == "right") {
+      cell.getRight().toggleLeftWall(isAdding);
+      cell.getRight().toggleLeftPending(!isAdding);
+      cell.toggleRightWall(isAdding);
+      cell.toggleRightPending(!isAdding);
+    } else if (mode == "bottom") {
+      cell.getBottom().toggleTopWall(isAdding);
+      cell.getBottom().toggleTopPending(!isAdding);
+      cell.toggleBottomWall(isAdding);
+      cell.toggleBottomPending(!isAdding);
+    }
+  }
+}
 function getMode(mouseInfo, cell) {
   const elementInfo = cell.e.getBoundingClientRect();
   const isTopLeft =
@@ -140,20 +193,15 @@ function getMode(mouseInfo, cell) {
     : "bottom";
 }
 
-function updatePending(row1, col1, row2, col2, mode, isAdding) {
+function editMultiWall(row1, col1, row2, col2, mode, isPending, isAdding) {
   // type defines whether a wall should be added or deleted
-  if(!isAdding){
-    Array.from(document.getElementsByClassName(`${mode}Pending`)).forEach(function(element){
-      maze.getCellObject(element).toggleClass(false, mode, 'pending')
-    })
-  }
   const startRow = row1 > row2 ? row2 : row1;
   const startCol = col1 > col2 ? col2 : col1;
   const endRow = row1 < row2 ? row2 : row1;
   const endCol = col1 < col2 ? col2 : col1;
   for (let row = startRow; row <= endRow; row++) {
     for (let col = startCol; col <= endCol; col++) {
-      maze.grid[row][col].toggleClass(true, mode, 'pending')
+      editWall(mode, maze.grid[row][col], isPending, isAdding);
     }
   }
 }

@@ -103,6 +103,10 @@ class Dummy {
     return null
   }
 
+  toggleClass(force, mode, type){
+    return null
+  }
+  
   hasLeft() {
     return null
   }
