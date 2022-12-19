@@ -223,9 +223,9 @@ class Cell {
 
   getNeighbors(isWallValid=false) {
     return [
+      this.getTop(isWallValid),
       this.getLeft(isWallValid),
       this.getRight(isWallValid),
-      this.getTop(isWallValid),
       this.getBottom(isWallValid),
     ].filter((neighbor) => neighbor !== null);
   }

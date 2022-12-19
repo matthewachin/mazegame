@@ -249,9 +249,7 @@ class Maze {
       console.log(2, touching)
       cell.toggleVisited(true)
     }
-    for(const cell of touching){
-      console.log(cell)
-    }
+    console.log('final', touching.map((e)=>e[2]).filter((e)=>e.isVisited()).map((e)=>e.e))
   }
 
   insertSorted(mainArray, smallArray) {
