@@ -232,9 +232,9 @@ class Cell {
       [this.getTop(isWallValid), 'N'],
       [this.getBottom(isWallValid), 'S'],
     ].filter((neighbor) => neighbor[0] !== null) : [
+      this.getTop(isWallValid),
       this.getLeft(isWallValid),
       this.getRight(isWallValid),
-      this.getTop(isWallValid),
       this.getBottom(isWallValid),
     ].filter((neighbor) => neighbor !== null)
   }
