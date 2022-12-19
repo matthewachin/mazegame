@@ -1,5 +1,8 @@
 :root{
-  --mainText : white; 
+  --mainText : rgb(238, 238, 238);
+  --darkMain : rgb(61, 152, 227);
+  --subText : rgb(180, 180, 180);
+  --lightBackground : rgb(55, 55, 55);
   --wall: rgb(61, 152, 227);
   --pending: rgb(0, 255, 119);
   --hover: rgb(255, 0, 72);
@@ -11,19 +14,44 @@
   --cellSize: 15px;
   --visited: rgb(61, 49, 119);
   --neighbor: rgb(153, 54, 54);
+  --path : rgb(255, 174, 0);
 }
-table{
-  border-collapse: collapse;
-  border-spacing: 0;
-}
+
+/* $offcanvas-bg-color:  rgb(40, 40, 40); */
+
+/* GLOBAL CSS */
+
 *{
   margin:0;
 }
 body{
   background-color: var(--background);
 }
-h1{
-  color: var(--mainText)
+.hidden{
+  visibility: hidden !important;
+}
+/* Normal page CSS */
+.main-name{
+  display: flex;
+}
+.main-title{
+  color: var(--mainText);
+  /* border: 2px solid red; */
+  margin-top: 1.3rem;
+  font-size: 3rem;
+}
+.main-logo{
+  width: 10rem;
+  height: auto;
+  overflow-y: hidden;
+}
+
+
+/* MAZE & MAZE CELL CSS */
+
+table{
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 .cell{
   padding: var(--cellSize);
@@ -37,6 +65,10 @@ h1{
 }
 .end{
   background-color:var(--end);
+}
+.solved{
+  background-color: var(--path);
+  border: var(--borderSize) solid transparent;
 }
 .topWall{
   border-top: var(--borderSize) solid var(--wall);
@@ -80,3 +112,52 @@ h1{
 .neighbor{
   background-color: var(--neighbor);
 }
+
+/* NAVIGATION MENU CSS */
+
+.offcanvas{
+  background-color: var(--background);
+  
+}
+.offcanvas-header{
+  color: var(--mainText);
+  margin-left: 1.2rem;
+  
+}
+.offcanvas-title{
+  font-size: 2.5rem;
+  
+}
+.nav-links-div{
+  display: flex;
+  flex-direction: column;
+  margin-left: 1.2rem;
+  margin-right: 1.6rem;
+}
+.nav-link{
+  font-size: 1.25rem;
+  color: var(--mainText);
+  
+}
+.nav-link:hover{
+  color: var(--darkMain);
+  background-color: var(--lightBackground);
+}
+.nav-desc{
+  margin-top: 2.5rem;
+  margin-left: 1.2rem;
+  
+}
+.nav-desc-title{
+  font-size: 1.7rem;
+  margin: 1rem 0rem;
+  color: var(--mainText);
+}
+.nav-desc-text{
+  font-size: 2;
+  color: var(--subText);
+}
+
+
+
+

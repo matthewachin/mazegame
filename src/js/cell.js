@@ -67,6 +67,10 @@ class Cell {
     this.e.classList.toggle('neighbor', force)
   }
 
+  toggleSolved(force){
+    this.e.classList.toggle('solved', force)
+  }
+
   toggleRightWall(force) {
     const neighbor = this.getRight()
     neighbor ? neighbor.e.classList.toggle('leftWall', force) : null
@@ -221,13 +225,18 @@ class Cell {
     return this.row == row && this.col-1 == col
   }
 
-  getNeighbors(isWallValid=false) {
-    return [
+  getNeighbors(isWallValid=false, withDireciton=false) {
+    return withDireciton ? [
+      [this.getLeft(isWallValid), 'W'],
+      [this.getRight(isWallValid), 'E'],
+      [this.getTop(isWallValid), 'N'],
+      [this.getBottom(isWallValid), 'S'],
+    ].filter((neighbor) => neighbor[0] !== null) : [
       this.getLeft(isWallValid),
       this.getRight(isWallValid),
       this.getTop(isWallValid),
       this.getBottom(isWallValid),
-    ].filter((neighbor) => neighbor !== null);
+    ].filter((neighbor) => neighbor !== null)
   }
 
   getRow() {
@@ -243,5 +252,8 @@ class Cell {
   }
   getManhattanDist(endRow, endCol){
     return Math.abs(endRow-this.row) + Math.abs(endCol-this.col)
+  }
+  getID(){
+    return `${this.row}_${this.col}`
   }
 }

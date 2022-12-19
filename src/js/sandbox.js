@@ -1,11 +1,23 @@
-let cellSize = 15
+let cellSize = 15;
 
-let maze = new Maze(30, 30);
+let maze = new Maze(20, 60);
 
-function setCellSize(size){
+function setCellSize(size) {
   cellSize = size;
-  document.querySelectorAll('.cell').forEach(function(e){
-    e.style.padding = cellSize + 'px'; 
-  })
+  document.querySelectorAll(".cell").forEach(function (e) {
+    e.style.padding = cellSize + "px";
+  });
 }
-maze.generatePrimMaze()
+
+// TIME_TEST(120, 3)
+maze.generatePrimMazeInstant()
+maze.aStarSolveInstant()
+
+
+function createMaze(s){
+  maze = new Maze(s, s)
+}
+
+const sum = (array) => array.reduce((a, b) => {
+  return a + b;
+});

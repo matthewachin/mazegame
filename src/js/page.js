@@ -2,7 +2,6 @@
 function switchMode(colorMode){
   // true = darkMode
   // false = lightMode
-  console.log('switching colormodes')
   
   if(colorMode){
     const darkMode = {

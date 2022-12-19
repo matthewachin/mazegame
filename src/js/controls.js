@@ -14,7 +14,7 @@ let lastHoverMode = null;
 
 // Enables draw controls
 enableDrawControls();
-
+disableDrawControls()
 // A function that enables draw controls
 function enableDrawControls() {
   // Run when the mouse is clicked down:
@@ -156,4 +156,10 @@ function updatePending(row1, col1, row2, col2, mode, isAdding) {
       maze.grid[row][col].toggleClass(true, mode, 'pending')
     }
   }
+}
+
+function disableDrawControls(){
+  document.onmousedown = null
+  document.onmouseup = null
+  document.onmousemove = null
 }
