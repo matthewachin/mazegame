@@ -1,6 +1,6 @@
 let cellSize = 15;
 
-let maze = new Maze(20, 60);
+let maze = new Maze(23, 44);
 
 function setCellSize(size) {
   cellSize = size;
