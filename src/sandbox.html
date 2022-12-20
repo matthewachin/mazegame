@@ -75,6 +75,7 @@
             <label class='myTextLabel' for="column-size">Column Size</label>
             <input class='myText' type="text" min="5" max="200" value="20" id="column-size" placeholder='Column Size (Cell)' name="column-size">
           </div>
+          <button type="button" class="myButton" id="submit-dimensions-button">Commit</button>
         </div>
         <div class="row-section">
           <h6 class="group-button-label">Editing Mode</h6>
@@ -102,8 +103,8 @@
         <div class="row-section">
           <h6 class="group-button-label">Show Solution</h6>
           <div id="radioContainer4">
-            <button type="button" class="myRadioButton radioGroup4 radio-left radio4-selected">On</button>
-            <button type="button" class="myRadioButton radioGroup4 radio-right">Off</button>
+            <button type="button" class="myRadioButton radioGroup4 radio-left">On</button>
+            <button type="button" class="myRadioButton radioGroup4 radio-right radio4-selected">Off</button>
           </div>
         </div>
         <div class="row-section">
@@ -114,8 +115,8 @@
           </div>
           <h6 class="group-button-label">Speed Per Step</h6>
           <div class="myRangeDiv">
-            <label for="algorithm-speed" class="myRangeLabel">VALUE</label>
-            <input type="range" class="myRange" id="algorithm-speed">
+            <label for="algorithm-speed" class="myRangeLabel" id="algorithm-speed-label">1 second</label>
+            <input type="range" class="myRange" onchange="delay_change(this.value)" id="algorithm-speed" min="0" max="15" step="0.5" value="1">
           </div>
         </div>
       </div>

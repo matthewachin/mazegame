@@ -233,9 +233,9 @@ class Maze {
   }
 
   aStarSolve(
+    delay = 1,
     startingCell = this.grid[0][0],
     endingCell = this.grid[this.totalRows - 1][this.totalColumns - 1],
-    delay = 1
   ) {
     this.resetMazeVars();
     if (!delay) {
@@ -387,7 +387,7 @@ class Maze {
     mainArray.splice(index, 0, small_cell);
   }
 
-  generatePrimMaze(startingCell = this.grid[Math.floor(Math.random()*this.totalRows)][Math.floor(Math.random()*this.totalColumns)], delay = 1) {
+  generatePrimMaze(delay = 1, startingCell = this.grid[Math.floor(Math.random()*this.totalRows)][Math.floor(Math.random()*this.totalColumns)]) {
     this.resetMazeVars();
     //? Implement a check that startingCell and endingCell are both touching walls
 
@@ -498,6 +498,56 @@ class Maze {
       solve_cell: null,
       path: null,
     };
+  }
+  resetMaze(){
+    this.editClassAll('visited', false)
+    this.editClassAll('neighbor', false)
+    this.editClassAll('solved', false)
+    this.editClassAll('start', false)
+    this.editClassAll('rightWall', false)
+    this.editClassAll('rightPending', false)
+    this.editClassAll('rightHover', false)
+    this.editClassAll('leftWall', false)
+    this.editClassAll('leftPending', false)
+    this.editClassAll('leftHover', false)
+    this.editClassAll('topWall', false)
+    this.editClassAll('topPending', false)
+    this.editClassAll('topHover', false)
+    this.editClassAll('bottomWall', false)
+    this.editClassAll('bottomPending', false)
+    this.editClassAll('bottomHover', false)
+    for(let i = 0; i < this.totalRows; i++){
+      this.grid[i][0].toggleLeftWall(true)
+      this.grid[i][this.totalColumns-1].toggleRightWall(true)
+    }
+    for(let i = 0; i < this.totalColumns; i++){
+      this.grid[0][i].toggleTopWall(true)
+      this.grid[this.totalRows-1][i].toggleBottomWall(true)
+    }
+  }
+  adjustRow(count){
+    if(count == this.totalRows){return}
+    for(let i =0; i<this.totalColumns; i++){
+      this.grid[i][this.totalColumns-1].toggleRightWall(false)
+    }
+    if(count > this.totalRows){
+      const change = this.totalRows-count
+      let rowNum = this.totalRows
+      for(let i = 0; i < change; i++){
+        for(let q = 0; q < this.totalRows; q++ ){
+          this.grid[q].push(new Cell())
+        }
+      }
+    }else{
+      
+    }
+  }
+  adjustColumn(count){
+    if(count > this.totalColumns){
+
+    }else if(count < this.totalColumns){
+      
+    }
   }
 }
 function randomIndex(array) {

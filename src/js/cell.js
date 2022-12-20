@@ -8,9 +8,6 @@ class Cell {
 
   // These methods assume that maze variable is a Maze object
   
-  isPath() {
-    return this.e.classList.contains("path");
-  }
   
   isStart() {
     return this.e.classList.contains("start");
@@ -46,9 +43,6 @@ class Cell {
 
   isSolved() {
     return this.e.classList.contains("solved");
-  }
-  togglePath(force) {
-    this.e.classList.toggle("path", force);
   }
 
   toggleStart(force) {

@@ -376,6 +376,15 @@ table{
   /* border: 1px solid red; */
   font-size: .8rem;
 }
+#submit-dimensions-button{
+  color: var(--save);
+  border-color: var(--save);
+}
+
+#submit-dimensions-button:hover{
+  background-color: var(--save);
+  color: var(--mainText);
+}
 .sub-row{
   background-color: var(--lightBackground);
   /* margin: 0 1.5rem; */
@@ -414,10 +423,11 @@ table{
   margin:0;
 }
 .radio3-selected{
-  background-color: var(--lightPurple);
+  background-color: var(--path);
+  color: var(--background);
 }
 #radioContainer3{
-  border: 2px solid var(--lightPurple);
+  border: 2px solid var(--path);
   border-radius: 5px;
 }
 #generate-maze-button{
