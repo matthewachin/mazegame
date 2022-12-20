@@ -1,6 +1,6 @@
 let cellSize = 15;
 
-let maze = new Maze(23, 44);
+let maze = new Maze(20, 20);
 
 function setCellSize(size) {
   cellSize = size;
@@ -10,8 +10,8 @@ function setCellSize(size) {
 }
 
 // TIME_TEST(120, 3)
-maze.generatePrimMazeInstant()
-maze.aStarSolveInstant()
+// maze.generatePrimMazeInstant()
+// maze.aStarSolveInstant()
 
 
 function createMaze(s){

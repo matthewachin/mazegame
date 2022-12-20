@@ -387,7 +387,7 @@ class Maze {
     mainArray.splice(index, 0, small_cell);
   }
 
-  generatePrimMaze(startingCell = this.grid[0][0], delay = 1) {
+  generatePrimMaze(startingCell = this.grid[Math.floor(Math.random()*this.totalRows)][Math.floor(Math.random()*this.totalColumns)], delay = 1) {
     this.resetMazeVars();
     //? Implement a check that startingCell and endingCell are both touching walls
 
@@ -503,6 +503,7 @@ class Maze {
 function randomIndex(array) {
   return Math.floor(Math.random() * array.length);
 }
+
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }

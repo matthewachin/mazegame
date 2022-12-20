@@ -12,7 +12,7 @@ let lastHoverCell = null;
 // The last hover mode
 let lastHoverMode = null;
 
-// Enables draw controls
+// enable/disable draw controls
 enableDrawControls();
 disableDrawControls()
 // A function that enables draw controls
