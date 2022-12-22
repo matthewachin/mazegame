@@ -9,12 +9,16 @@ class Cell {
   // These methods assume that maze variable is a Maze object
   
   
-  isStart() {
-    return this.e.classList.contains("start");
+  isEntrance() {
+    return this.e.classList.contains("entrance");
   }
 
-  isEnd() {
-    return this.e.classList.contains("end");
+  isUserPath(){
+    return this.e.classList.contains("userPath");
+  }
+
+  isMazeEdge(){
+    return this.e.classList.contains("mazeEdge");
   }
   
   isRightWall() {
@@ -45,12 +49,16 @@ class Cell {
     return this.e.classList.contains("solved");
   }
 
-  toggleStart(force) {
-    this.e.classList.toggle("start", force);
+  toggleEntrance(force) {
+    this.e.classList.toggle("entrance", force);
   }
 
-  toggleEnd(force) {
-    this.e.classList.toggle("end", force);
+  toggleUserPath(force){
+   this.e.classList.toggle("userPath", force);
+  }
+
+  toggleMazeEdge(force) {
+    this.e.classList.toggle("mazeEdge", force);
   }
 
   toggleVisited(force){
@@ -113,6 +121,10 @@ class Cell {
     this.e.classList.toggle("topPending", force);
   }
 
+  togglePendingCell(force){
+    this.e.classList.toggle('pendingCell', force)
+  }
+
   toggleRightHover(force) {
     const neighbor = this.getRight()
     neighbor ? neighbor.e.classList.toggle('leftHover', force) : null
@@ -135,6 +147,10 @@ class Cell {
     const neighbor = this.getTop()
     neighbor ? neighbor.e.classList.toggle('bottomHover', force) : null
     this.e.classList.toggle("topHover", force);
+  }
+
+  toggleHoverCell(force){
+    this.e.classList.toggle('hoverCell', force)
   }
 
   toggleClass(force, mode, type){
@@ -249,5 +265,11 @@ class Cell {
   }
   getID(){
     return `${this.row}_${this.col}`
+  }
+  reset(){
+    this.toggleTopWall(false)
+    this.toggleLeftWall(false)
+    this.toggleRightWall(false)
+    this.toggleBottomWall(false)
   }
 }

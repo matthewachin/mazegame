@@ -57,3 +57,14 @@ async function TIME_TEST(s, tc){
   }
   console.log(JSON.stringify(times))
 }
+async function time(f) {
+  const start = performance.now();
+
+  for(let i = 0; i < 1000; i++){
+    await f()
+  }
+
+  const end = performance.now();
+  console.log(`Execution time: ${end - start} ms`);
+  return end - start;
+}

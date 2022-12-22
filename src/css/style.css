@@ -12,21 +12,31 @@
   /* MAZE CELLS */
   --cellSize: 15px;
   --borderSize: 2.5px;
+  
   --gridLine: rgb(67, 53, 53);
   --visited: rgb(61, 49, 119);
   --neighbor: rgb(153, 54, 54);
   --path : rgb(255, 174, 0);
   --wall: rgb(61, 152, 227);
-  --pending: rgb(0, 255, 119);
+  --pending: rgb(48, 209, 123);
   --hover: rgb(255, 0, 72);
-  --start: greenyellow;
-  --end: darkred;
+  --otherHover: rgb(52, 108, 62);
+  --entrance: rgb(51, 107, 153);
+  --userPath: rgb(187, 128, 0);
 
   /* EDITOR BUTTONS */
   --save : rgb(29, 215, 60);
   --tryMaze : rgb(60, 126, 219);
   --publish : rgb(247, 227, 42);
-  
+ 
+  --feedback-bad : rgb(250, 69, 69);
+  --feedback-medium: rgb(255, 157, 0);
+  --feedback-good : rgb(20, 193, 63);
+}
+
+@font-face {
+  font-family: timerFont;
+  src: url(OxygenMono-Regular.ttf);
 }
 
 /* $offcanvas-bg-color:  rgb(40, 40, 40); */
@@ -94,6 +104,10 @@ table{
   border-collapse: collapse;
   border-spacing: 0;
 }
+/* #main-grid{
+  margin: 2rem;
+} */
+
 .cell{
   padding: var(--cellSize);
   margin:0;
@@ -101,11 +115,14 @@ table{
   border: var(--borderSize) dashed var(--gridLine);
   user-select: none;
 }
-.start{
-  background-color:var(--start);
+.entrance{
+  background-color:var(--entrance);
 }
-.end{
-  background-color:var(--end);
+.neighbor{
+  background-color: var(--neighbor);
+}
+.visited{
+  background-color: var(--visited);
 }
 .solved{
   background-color: var(--path);
@@ -147,11 +164,24 @@ table{
 .leftHover{
   border-left: var(--borderSize) solid var(--hover);
 }
-.visited{
-  background-color: var(--visited);
+.pendingCell{
+  /* border-top: var(--borderSize) solid var(--pending);
+  border-bottom: var(--borderSize) solid var(--pending);
+  border-left: var(--borderSize) solid var(--pending);
+  border-right: var(--borderSize) solid var(--pending); */
+  /* outline: var(--borderSize) solid var(--pending); */
+  background-color: var(--pending);
 }
-.neighbor{
-  background-color: var(--neighbor);
+.hoverCell{
+  /* border-top: var(--borderSize) solid var(--hover);
+  border-bottom: var(--borderSize) solid var(--hover);
+  border-right: var(--borderSize) solid var(--hover);
+  border-left: var(--borderSize) solid var(--hover); */
+  /* outline: var(--borderSize) solid var(--hover); */
+  background-color: var(--hover);
+}
+.userPath{
+  background-color: var(--userPath);
 }
 
 /* NAVIGATION MENU CSS */
@@ -224,9 +254,10 @@ table{
   display: flex;
   text-align: center;
   align-items: center;
-  margin: 0rem 1.2rem 0rem 0rem;
+  margin: 0;
   justify-content: space-between;
   flex-wrap: wrap;
+  height: 5rem;
   /* border: 1px solid orange; */
 }
 
@@ -304,39 +335,33 @@ table{
 
 /* FEEDBACK AREA */
 
-.feedback-div{
+#feedback-div{
   /* border: 1px solid white; */
-  padding: 0.2rem;
-  margin: 1rem 1.5rem;
+  padding: 0.5rem;
+  /* border: 1px solid red; */
   background-color: var(--lightBackground);
-  border-radius: 0.3rem;
+  
   display: flex;
-  /* border: 1px solid orange; */
   justify-content: space-between;
+
+  /* border: 1px solid orange; */
 }
-.feedback-text{
-  margin: 1rem 1rem;
-  color:var(--subText);
+#feedback-section{
+  padding: 0.5rem;
+  background-color: var(--lightBackground);
+  display: flex;
+  flex-direction: column;
+  margin-left: 2.2rem;
+}
+#feedback-title{
+  font-size: 1rem;
+  color: var(--mainText);
+}
+#feedback-text{
+  font-size: 1.05rem;
+  
   /* border: 1px solid blue; */
 }
-#feedback-on{
-  text-align: right;
-  /* border: 1px solid red; */
-  color: var(--mainText);
-  /* margin-right: 1.5rem; */
-  position: absolute;
-  font-size: .9rem;
-  transform: translate(-.55rem, 1.2rem);
-}
-#on-feedback-div{
-  /* border:1px solid orange; */
-  display: flex;
-  text-align: right;
-  justify-content: right;
-  align-items: right;
-  margin-right: .6rem;
-}
-
 
 /* #hide-feedback{
   
@@ -504,4 +529,27 @@ table{
 }
 #algorithm-speed:hover{
   opacity: 1;
+}
+#feedback-button{
+  color: var(--path);
+  border-color: var(--path);
+}
+#feedback-button:hover{
+  background-color: var(--path);
+  color: var(--background);
+}
+.feedback-bad{
+  color: var(--feedback-bad);
+}
+.feedback-good{
+  color: var(--feedback-good);
+}
+.feedback-medium{
+  color: var(--feedback-medium);
+}
+#timer{
+  width: 12rem;
+  /* border: 2px solid red; */
+  font-family: timerFont;
+  transform: translate(0, .25rem);
 }

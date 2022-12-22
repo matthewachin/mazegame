@@ -4,6 +4,49 @@ let showSolution = false
 let algDelay = 1
 let visualizeAlg = true
 
+
+document.getElementById('feedback-button').addEventListener('click', (e)=>{
+  const feedbackDiv = document.getElementById('feedback-div')
+  feedbackDiv.classList.contains('hidden') ? toggleFeedback(true) : toggleFeedback(false)
+})
+
+document.getElementById('hide-feedback').addEventListener('click', (e)=>{
+  toggleFeedback(false)
+})
+
+function displayFeedback(text, type, force=false){
+  const feedbackElement = document.getElementById('feedback-text')
+  if(type == 'good'){
+    feedbackElement.classList.add('feedback-good')
+    feedbackElement.classList.remove('feedback-bad')
+    feedbackElement.classList.remove('feedback-medium')
+  }else if(type == 'bad'){
+    feedbackElement.classList.add('feedback-bad')
+    feedbackElement.classList.remove('feedback-good')
+    feedbackElement.classList.remove('feedback-medium')
+  }else{
+    feedbackElement.classList.remove('feedback-good')
+    feedbackElement.classList.add('feedback-medium')
+    feedbackElement.classList.remove('feedback-bad')
+  }
+  feedbackElement.innerHTML = text
+  force ? toggleFeedback(true) : null
+}
+function toggleFeedback(force){
+  // true = show
+  // false = false
+  const feedbackDiv = document.getElementById('feedback-div')
+  const feedbackButton = document.getElementById('feedback-button')
+  if(force){
+    feedbackDiv.classList.toggle('hidden', false)
+    feedbackButton.innerHTML = 'Hide Feedback'
+  }else{
+    feedbackDiv.classList.toggle('hidden', true)
+    feedbackButton.innerHTML = 'Show Feedback'
+  }
+}
+
+
 document.getElementById('try-button').addEventListener('click', (e)=>{
   window.location.href = ''
   
@@ -34,9 +77,15 @@ document.getElementById('clear-maze-button').addEventListener('click', (e)=>{
 
 document.getElementById('generate-maze-button').addEventListener('click', (e)=>{
   visualizeAlg ? maze.generatePrimMaze(algDelay) : maze.generatePrimMazeInstant()
+  displayFeedback('Refrain from continously running generate maze. It may make your maze unsolvable.', 'medium')
+  generateMazeCount++
 })
 
 
+document.getElementById('submit-dimensions-button').addEventListener('click', (e)=>{
+  maze.adjustColumn(Number(document.getElementById('column-size').value))
+  maze.adjustRow(Number(document.getElementById('row-size').value))
+})
 //TODO: Code needs to be implemented to show solution on user change
 
 function toggleClass(id, className, force){
@@ -65,8 +114,8 @@ const group3 = new ButtonGroup(3)
 const group4 = new ButtonGroup(4)
 const group5 = new ButtonGroup(5)
 
-console.log(group1)
 
+// Switch between settings tabs
 group1.addClick(0, (e)=>{
   group1.newSelection(e.target)
   toggleClass('maze-settings', 'hidden', false)
@@ -87,24 +136,21 @@ group1.addClick(2, (e)=>{
   toggleClass('algs-settings', 'hidden', true)
   toggleClass('editor-settings', 'hidden', false)
 })
+
+
+// Switch between draw and erase modes
 group2.addClick(0, (e)=>{
   group2.newSelection(e.target)
-
-
-  //TODO TURN OFF ERASE MODE
-  //TODO TURN ON DRAW MODE
-
+  enableDrawControls()
 
 })
 group2.addClick(1, (e)=>{
   group2.newSelection(e.target)
-
-
-  //TODO TURN ON ERASE MODE
-  //TODO TURN OFF DRAW MODE
-
+  enableEraseControls()
 
 })
+
+// Show/hide grid lines
 group3.addClick(0, (e)=>{
   group3.newSelection(e.target)
   document.querySelector(':root').style.setProperty('--gridLine', 'rgb(67, 53, 53)')
@@ -113,6 +159,8 @@ group3.addClick(1, (e)=>{
   group3.newSelection(e.target)
   document.querySelector(':root').style.setProperty('--gridLine', 'transparent')
 })
+
+// Solve maze on/off
 group4.addClick(0, (e)=>{
   group4.newSelection(e.target)
   showSolution = true
@@ -123,6 +171,8 @@ group4.addClick(1, (e)=>{
   showSolution = false
   maze.editClassAll('solved', false)
 })
+
+// Visualize Algs on/off
 group5.addClick(0, (e)=>{
   group5.newSelection(e.target)
   visualizeAlg = true

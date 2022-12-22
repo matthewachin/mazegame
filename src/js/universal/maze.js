@@ -5,30 +5,36 @@ class Maze {
     this.totalRows = totalRows;
     this.totalColumns = totalColumns;
     this.e = document.getElementById("main-grid");
-    this.grid = this.generateGrid();
+    this.grid = this.generateGrid(true);
 
     this.resetMazeVars();
   }
-
+  resetTableElement(){
+    document.getElementById('main-grid').remove()
+    const newTable = document.createElement('table')
+    newTable.setAttribute('id', 'main-grid')
+    document.getElementById('main-grid-div').appendChild(newTable)
+    this.e = newTable
+  }
   createHTMLGrid() {
     let table = this.e;
-    let type = true;
+    // let type = true;
     this.deleteAllChildren(table);
     for (let row = 0; row < this.totalRows; row++) {
       let rowElement = document.createElement("tr");
       rowElement.setAttribute("id", `row-${row}`);
-      type = !(this.totalColumns % 2) ? !type : type;
+      // type = !(this.totalColumns % 2) ? !type : type;
       for (let col = 0; col < this.totalColumns; col++) {
         let cell = document.createElement("td");
         cell.setAttribute("draggable", false);
-        cell.classList.add("cell", "path", "darkmode");
+        cell.classList.add("cell");
         // type ? cell.classList.add('cell1') : cell.classList.add('cell2')
-        !row ? cell.classList.add("topWall") : null;
-        row == this.totalRows - 1 ? cell.classList.add("bottomWall") : null;
-        col == this.totalColumns - 1 ? cell.classList.add("rightWall") : null;
-        !col ? cell.classList.add("leftWall") : null;
+        !row ? cell.classList.add("topWall", "mazeEdge"): null;
+        row == this.totalRows - 1 ? cell.classList.add("bottomWall", "mazeEdge") : null;
+        col == this.totalColumns - 1 ? cell.classList.add("rightWall", "mazeEdge") : null;
+        !col ? cell.classList.add("leftWall", "mazeEdge") : null;
 
-        type = !type;
+        // type = !type;
         cell.setAttribute("id", `${row}_${col}`);
         rowElement.appendChild(cell);
       }
@@ -36,7 +42,7 @@ class Maze {
     }
   }
 
-  generateGrid() {
+  generateGrid(newMaze=false) {
     this.createHTMLGrid();
     const grid = [];
     for (let row = 0; row < this.totalRows; row++) {
@@ -46,6 +52,12 @@ class Maze {
         grid[row].push(new Cell(element, row, col));
       }
     }
+    if(newMaze){
+      grid[0][0].e.classList.remove('topWall')
+      grid[0][0].e.classList.add('entrance')
+      grid[this.totalRows-1][this.totalColumns-1].e.classList.remove('bottomWall')
+      grid[this.totalRows-1][this.totalColumns-1].e.classList.add('entrance')
+    }
     return grid;
   }
 
@@ -53,41 +65,64 @@ class Maze {
     const object = {
       totalRows: this.totalRows,
       totalColumns: this.totalColumns,
-      grid: {},
+      grid: [],
     };
+    const grid = object.grid
     for (let row = 0; row < this.totalRows; row++) {
+      grid.push([])
       for (let col = 0; col < this.totalColumns; col++) {
-        const id = `${row}_${col}`;
-        object.grid[id] = {
-          path: this.grid[row][col].isPath(),
-          start: this.grid[row][col].isStart(),
-          end: this.grid[row][col].isEnd(),
-          leftWall: this.grid[row][col].isLeftWall(),
-          rightWall: this.grid[row][col].isRightWall(),
-          bottomWall: this.grid[row][col].isBottomWall(),
-          topWall: this.grid[row][col].isTopWall(),
-        };
+        grid[row].push({
+          l: this.grid[row][col].isLeftWall(),
+          // left
+          r: this.grid[row][col].isRightWall(),
+          // right
+          b: this.grid[row][col].isBottomWall(),
+          // bottom
+          t: this.grid[row][col].isTopWall(),
+          // top
+        })
       }
     }
     return object;
   }
 
-  updateTable(object) {
+  loadTable(object) {
+    this.resetTableElement()
+    this.grid = []
+    this.totalRows = object.totalRows
+    this.totalColumns = object.totalColumns
     for (let row = 0; row < object.totalRows; row++) {
+      this.grid.push([])
+      const rowElement = document.createElement('tr')
+      rowElement.setAttribute('id', `row-${row}`)
       for (let col = 0; col < object.totalColumns; col++) {
+        
         const id = `${row}_${col}`;
-        const element = this.grid[row][col].e;
-        const classList = object.grid[id];
+        const cell_info = object.grid[row][col]
+        const cell_element = document.createElement('td')
+        cell_element.classList.add("cell");
+        cell_element.setAttribute('id', id)
+        cell_info.l ? cell_element.classList.add('leftWall') : null
+        cell_info.r ? cell_element.classList.add('rightWall') : null
+        cell_info.b ? cell_element.classList.add('bottomWall') : null
+        cell_info.t ? cell_element.classList.add('topWall') : null
+        rowElement.appendChild(cell_element)
+        this.grid[row].push(new Cell(cell_element, row, col))
 
-        element.className = "";
-        this.grid[row][col].togglePath(classList.path);
-        this.grid[row][col].toggleStart(classList.start);
-        this.grid[row][col].toggleEnd(classList.end);
-        this.grid[row][col].toggleLeftWall(classList.leftWall);
-        this.grid[row][col].toggleRightWall(classList.rightWall);
-        this.grid[row][col].toggleBottomWall(classList.bottomWall);
-        this.grid[row][col].toggleTopWall(classList.topWall);
       }
+      this.e.appendChild(rowElement)
+    }
+    for(let row = 0; row < this.totalRows; row++){
+      const left = this.grid[row][0]
+      const right = this.grid[row][this.totalColumns-1]
+      !left.isLeftWall() ? left.e.classList.add('mazeEdge', 'entrance') : left.e.classList.add('mazeEdge')
+      !right.isRightWall() ? right.e.classList.add('mazeEdge', 'entrance') : right.e.classList.add('mazeEdge')
+    }
+    for(let col = 0; col < this.totalColumns; col++){
+      const top = this.grid[0][col]
+      const bottom = this.grid[this.totalRows-1][col]
+      !top.isTopWall() ? top.e.classList.add('mazeEdge', 'entrance') : top.e.classList.add('mazeEdge')
+      !bottom.isBottomWall() ? top.e.classList.add('mazeEdge', 'entrance') : top.e.classList.add('mazeEdge')
     }
   }
 
@@ -125,10 +160,15 @@ class Maze {
     }
   }
 
-  aStarSolveInstant(
-    startingCell = this.grid[0][0],
-    endingCell = this.grid[this.totalRows - 1][this.totalColumns - 1]
-  ) {
+  aStarSolveInstant() {
+    const entranceCells = Array.from(document.getElementsByClassName('entrance'))
+    this.editClassAll("solved", false);
+    if(entranceCells.length !== 2){
+      displayFeedback('Mazes must have 2 entrances.', 'bad', true)
+      return
+    }
+    const startingCell = this.getCellObject(entranceCells[0])
+    const endingCell = this.getCellObject(entranceCells[1])
     this.resetMazeVars();
     let notSolved = true;
     let touching = startingCell.getNeighbors();
@@ -139,7 +179,6 @@ class Maze {
     const endCol = endingCell.getColumn();
     this.editClassAll("visited", false);
     this.editClassAll("neighbor", false);
-    this.editClassAll("solved", false);
     touching.forEach((neighbor) => neighbor.toggleNeighbor(true));
     touching.forEach(function (n) {
       cell_data[n.getID()] = {
@@ -233,15 +272,21 @@ class Maze {
   }
 
   aStarSolve(
-    delay = 1,
-    startingCell = this.grid[0][0],
-    endingCell = this.grid[this.totalRows - 1][this.totalColumns - 1],
+    delay = 0,
   ) {
     this.resetMazeVars();
     if (!delay) {
       this.aStarSolveInstant(startingCell, endingCell);
       return;
     }
+    this.editClassAll("solved", false);
+    const entranceCells = Array.from(document.getElementsByClassName('entrance'))
+    if(entranceCells.length !== 2){
+      displayFeedback('Mazes must have 2 entrances.', 'bad', true)
+      return
+    }
+    const startingCell = this.getCellObject(entranceCells[0])
+    const endingCell = this.getCellObject(entranceCells[1])
     let touching = startingCell.getNeighbors();
     // this is  a priority queue made up of arrays [distanceFromStart, manhattan distance, node/cell object]
     let distanceTravelled = 1;
@@ -292,7 +337,7 @@ class Maze {
                   MAZE_VARIABLES.lastID = newCellID;
                 }
               },
-              delay*10,
+              delay,
               startingCell,
               cell_data
             );
@@ -401,6 +446,7 @@ class Maze {
     MAZE_VARIABLES.touching = startingCell.getNeighbors();
     this.editClassAll("visited", false);
     this.editClassAll("neighbor", false);
+    this.editClassAll("solved", false);
     MAZE_VARIABLES.touching.forEach((neighbor) => neighbor.toggleNeighbor(true));
     startingCell.toggleVisited(true);
     for (let i = 0; i < this.totalColumns * this.totalRows - 1; i++) {
@@ -441,12 +487,16 @@ class Maze {
       MAZE_VARIABLES.touching = null;
       maze.editClassAll("visited", false);
       maze.editClassAll("neighbor", false);
+      setTimeout(()=>{
+        showSolution ? maze.aStarSolveInstant() : null
+      }, 5) 
     }, maze.totalColumns * maze.totalRows * delay + 200);
   }
   generatePrimMazeInstant(startingCell = this.grid[0][0]) {
     let touching = startingCell.getNeighbors();
     this.editClassAll("visited", false);
     this.editClassAll("neighbor", false);
+    this.editClassAll("solved", false);
     touching.forEach((neighbor) => neighbor.toggleNeighbor(true));
     startingCell.toggleVisited(true);
     while (touching.length) {
@@ -483,6 +533,9 @@ class Maze {
     }
     this.editClassAll("visited", false);
     this.editClassAll("neighbor", false);
+    setTimeout(()=>{
+      showSolution ? maze.aStarSolveInstant() : null
+    }, 3)  
   }
 
   getCellByID(id) {
@@ -497,13 +550,14 @@ class Maze {
       lastID: null,
       solve_cell: null,
       path: null,
+      finished: false,
     };
   }
   resetMaze(){
     this.editClassAll('visited', false)
     this.editClassAll('neighbor', false)
     this.editClassAll('solved', false)
-    this.editClassAll('start', false)
+    this.editClassAll('entrance', false)
     this.editClassAll('rightWall', false)
     this.editClassAll('rightPending', false)
     this.editClassAll('rightHover', false)
@@ -524,29 +578,92 @@ class Maze {
       this.grid[0][i].toggleTopWall(true)
       this.grid[this.totalRows-1][i].toggleBottomWall(true)
     }
+    this.grid[0][0].e.classList.remove('topWall')
+    this.grid[0][0].e.classList.add('entrance')
+    this.grid[this.totalRows-1][this.totalColumns-1].e.classList.remove('bottomWall')
+    this.grid[this.totalRows-1][this.totalColumns-1].e.classList.add('entrance')
   }
   adjustRow(count){
     if(count == this.totalRows){return}
     for(let i =0; i<this.totalColumns; i++){
-      this.grid[i][this.totalColumns-1].toggleRightWall(false)
+      const cell = this.grid[this.totalRows-1][i]
+      cell.toggleBottomWall(false)
+      cell.toggleMazeEdge(false)
+      if(cell.isEntrance()){
+        i == this.totalColumns-1 && cell.isRightWall() ? null : cell.toggleEntrance(false)
+      }
     }
     if(count > this.totalRows){
-      const change = this.totalRows-count
-      let rowNum = this.totalRows
+      const change = count-this.totalRows
       for(let i = 0; i < change; i++){
-        for(let q = 0; q < this.totalRows; q++ ){
-          this.grid[q].push(new Cell())
+        let newRow = document.createElement("tr");
+        newRow.setAttribute("id", `row-${this.totalRows}`);
+        let newRowArray = []
+        for(let col = 0; col < this.totalColumns; col++){
+          let cell = document.createElement('td')
+          cell.setAttribute("draggable", false);
+          cell.classList.add("cell");
+          cell.setAttribute('id', `${this.totalRows}_${col}`)
+          this.totalRows == count - 1 ? cell.classList.add("bottomWall", "mazeEdge") : null;
+          col == this.totalColumns - 1 ? cell.classList.add("rightWall", "mazeEdge") : null;
+          !col ? cell.classList.add("leftWall", "mazeEdge") : null;
+          newRow.appendChild(cell)
+          newRowArray.push(new Cell(cell, this.totalRows, col))
         }
+        this.e.appendChild(newRow)
+        this.grid.push(newRowArray)
+        this.totalRows++
       }
     }else{
-      
+      const change = this.totalRows-count
+      for(let i = 0; i < change; i++){
+        this.totalRows--
+        this.e.deleteRow(this.totalRows)
+        this.grid.pop()
+      }
+      for(let col= 0; col < this.totalColumns; col++){
+        this.grid[this.totalRows-1][col].toggleBottomWall(true)
+      }
     }
   }
   adjustColumn(count){
+    if(count == this.totalColumns){return}
+    for(let i = 0; i < this.totalRows; i++){
+      const cell = this.grid[i][this.totalColumns-1]
+      cell.toggleRightWall(false)
+      cell.toggleMazeEdge(false)
+      if(cell.isEntrance()){
+        i == this.totalRows-1 && cell.isBottomWall() ? null : cell.toggleEntrance(false)
+      }
+    }
     if(count > this.totalColumns){
-
-    }else if(count < this.totalColumns){
-      
+      const change = count-this.totalColumns
+      for(let i = 0; i < change; i++){
+        for(let row = 0; row< this.totalRows; row++){
+          const cell = document.createElement('td')
+          cell.setAttribute("draggable", false);
+          cell.classList.add("cell");
+          cell.setAttribute('id', `${row}_${this.totalColumns}`)
+          !row ? cell.classList.add("topWall", "mazeEdge") : null;
+          row == this.totalRows - 1 ? cell.classList.add("bottomWall", "mazeEdge") : null;
+          this.totalColumns == count-1 ? cell.classList.add("rightWall", "mazeEdge") : null;
+          document.getElementById(`row-${row}`).appendChild(cell)
+          this.grid[row].push(new Cell(cell, row, this.totalColumns))
+        }
+        this.totalColumns++
+      }
+    }else{
+      const change = this.totalColumns-count
+      for(let i = 0; i < change; i++){
+        this.totalColumns--
+        for(let row =0; row < this.totalRows; row++){
+          const cell = this.grid[row].pop()
+          cell.e.remove()
+        }
+      }
+      for(let row= 0; row < this.totalRows; row++){
+        this.grid[row][this.totalColumns-1].toggleRightWall(true)
+      }
     }
   }
 }
