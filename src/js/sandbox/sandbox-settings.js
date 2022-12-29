@@ -1,5 +1,4 @@
 // Variables displaying user choice
-
 let showSolution = false
 let algDelay = 1
 let visualizeAlg = true
@@ -14,24 +13,11 @@ document.getElementById('hide-feedback').addEventListener('click', (e)=>{
   toggleFeedback(false)
 })
 
-function displayFeedback(text, type, force=false){
-  const feedbackElement = document.getElementById('feedback-text')
-  if(type == 'good'){
-    feedbackElement.classList.add('feedback-good')
-    feedbackElement.classList.remove('feedback-bad')
-    feedbackElement.classList.remove('feedback-medium')
-  }else if(type == 'bad'){
-    feedbackElement.classList.add('feedback-bad')
-    feedbackElement.classList.remove('feedback-good')
-    feedbackElement.classList.remove('feedback-medium')
-  }else{
-    feedbackElement.classList.remove('feedback-good')
-    feedbackElement.classList.add('feedback-medium')
-    feedbackElement.classList.remove('feedback-bad')
-  }
-  feedbackElement.innerHTML = text
-  force ? toggleFeedback(true) : null
-}
+document.getElementById('submit-size-button').addEventListener('click', (e)=>{
+  setCellSize(Number(document.getElementById('cell-size').value))
+})
+
+
 function toggleFeedback(force){
   // true = show
   // false = false
@@ -46,24 +32,38 @@ function toggleFeedback(force){
   }
 }
 
-
-document.getElementById('try-button').addEventListener('click', (e)=>{
-  window.location.href = ''
-  
-  // TODO: IMPLEMENT NEW LINK TO PAGE
-  // possibly save to local storage and send data that way?
-
-})
-
-document.getElementById('save-button').addEventListener('click', (e)=>{
-  // RETURN FEEDBACK!
-  // save on server when complete/update if exists
-  
-})
+// document.getElementById('save-button').addEventListener('click', (e)=>{
+//   // RETURN FEEDBACK!
+//   // save on server when complete/update if exists
+//   fetch()
+// })
 
 document.getElementById('publish-button').addEventListener('click', (e)=>{
+  console.log('called')
   // RETURN FEEDBACK!
   // save on server to published mazes when complete/update if exists
+  if(!(Array.from(document.getElementsByClassName('entrance')).length == 2)){
+    displayFeedback('Failed to publish. Mazes must have 2 entrances.', 'bad')
+  }else{
+    if(maze.aStarSolveInstant === false){
+      displayFeedback('Failed to publish. Maze is unsolvable.')
+    }
+    const data = maze.generateObject()
+    const response = fetch('/sandbox', {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then((response)=>response.json())
+    .then((data) => {
+      console.log('SERVER RESPONSE:', data);
+    })
+    .catch((error) => {
+      console.error('SERVER RESPONSE (ERROR):', error);
+    });
+  }
 })
 
 function delay_change(value){
@@ -164,7 +164,7 @@ group3.addClick(1, (e)=>{
 group4.addClick(0, (e)=>{
   group4.newSelection(e.target)
   showSolution = true
-  visualizeAlg ? maze.aStarSolve(algDelay) : maze.aStarSolveInstant()
+  visualizeAlg ? maze.aStarSolve(algDelay) : maze.aStarSolveInstant(true)
 })
 group4.addClick(1, (e)=>{
   group4.newSelection(e.target)

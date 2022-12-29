@@ -1,8 +1,116 @@
-<%- include('partials/header', {title:"P, R, S: Tournament of Champions"}) -%>
+<%- include('partials/head.ejs') %>
+<style>
+  html{
+    scroll-behavior: smooth;
+  }
+</style>
+<body>
+  <div class="index-section">
+    <img src="/images/bgMaze.png" id="background-image">
+    <div class="index-header-div">
+      <h1 class="typing-title hidden" id="main-title">
+        <span class="title-letter currentLetter" id="main-letter-0"></span>
+        <span class="title-letter" id="main-letter-1">M</span>
+        <span class="title-letter" id="main-letter-2">a</span>
+        <span class="title-letter" id="main-letter-3">z</span>
+        <span class="title-letter" id="main-letter-4">e</span>
+        <span class="title-letter" id="main-letter-5">L</span>
+        <span class="title-letter" id="main-letter-6">a</span>
+        <span class="title-letter" id="main-letter-7">b</span>
+        <span class="title-letter" id="main-letter-8">s</span>
+      </h1>
+      <img class="max-size" id='logo'src="/images/only-logo.png" />
+    </div>
+    <div class="creation-tag-div hiddenSpace" id="creation-tag-div">
+      <h3 class="typing-desc" id="typing-desc">Created by Matthew Chin</h3>
+      <button class="myButton neonblueButton loginButton" onclick="window.location.href='/login'" id="login-button">Login</button>
+    </div>
+    <div class="scroll-down-indicator hidden" id="scroll-down"></div>
+  </div>
+  <div class="index-main">
+    <div class="info-card-title-div">
+      <h1 class="info-card-title">Features</h1>
+    </div>
+    <div class="info-cards">
+      <div class="info-card" id="card1">
+        <div class="card-side1">
+          <div class="card-icon-div">
+            <svg class='card-icon'xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+            </svg>
+          </div>
+          <h2 class="card-title">Create</h2> 
+          <h4 class="card-subtitle">Create your own mazes with our maze editor!</h4>
+        </div>
+        <div class="card-side2">
+          <ul class="card-description">
+            <li>Design your own maze by indicating its dimensions, entrances, and walls.</li>
+            <li>Generate a random maze using one of our algorithms.</li> 
+            <li>See your maze's solution in real time.</li>
+            <li>Visualize the algorithms used in Google Maps and network design.</li>
+          </ul>
+          <a class="card-link" href="/sandbox">Start Creating <span class="arrow-span">
+            <svg class="arrow-icon-right" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+            </svg>
+          </span></a>
+        </div>
+      </div>
+      <div class="info-card" id="card2">
+        <div class="card-side1">
+          <ul class="card-description">
+            <li>Solve mazes by navigating through its turns and connecting the entrance and exit.</li>
+            <li>Compare your solution against the most optimal solution.</li>
+            <li>Receive a score based on your solve time and solution.</li>
+            <li>Compete against others for the highest score.</li>
 
-<p> Welcome to the official site of the Paper, Rock, Scissors: Tournament of Champions!
-  <br>
-  <br>
-  <a href="/play">Click to play a round of Paper, Rock, Scissors</a>
-
-  <%- include('partials/footer') -%>
+          </ul>
+          <a class="card-link" href="/maze-list"><span class="arrow-span"><svg xmlns="http://www.w3.org/2000/svg" class="arrow-icon-left" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+          </svg></span> Start Solving</a>
+        </div>
+        <div class="card-side2">
+          <div class="card-icon-div">
+            <svg class='card-icon'xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
+              <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z"/>
+              <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
+            </svg>
+          </div>
+          <h2 class="card-title">Solve</h2>
+          <h4 class="card-subtitle">Solve mazes and compete for better scores!</h4>
+        </div>
+      </div>
+      <div class="info-card" id="card3">
+        <div class="card-side1">
+          <div class="card-icon-div">
+            <svg class='card-icon'xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-box-arrow-up" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z"/>
+              <path fill-rule="evenodd" d="M7.646.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 1.707V10.5a.5.5 0 0 1-1 0V1.707L5.354 3.854a.5.5 0 1 1-.708-.708l3-3z"/>
+            </svg>
+          </div>
+          <h2 class="card-title">Share</h2>
+          <h4 class="card-subtitle">Share your mazes and try other people's mazes!</h4>
+        </div>
+        <div class="card-side2">
+          <ul class="card-description">
+            <li>Share your mazes via a link with others.</li>
+            <li>Publish your maze to our database for everyone to try.</li>
+            <li>Select random mazes from a list and try other people's mazes.</li>
+            <li>View other people's mazes and solve statistics.</li>
+          </ul>
+          <a class="card-link" href="/maze-list">Start Sharing <span class="arrow-span"><svg class="arrow-icon-right" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+          </svg></span></a>
+        </div>
+      </div>
+    </div>
+    <div class="about-section">
+      <div class="info-card-title-div">
+        <h1 class="info-card-title">About</h1>
+      </div>
+    </div>
+  </div>
+  <script src="/js/index/index-styling.js"></script>
+</body>
+<%- include('partials/footer.ejs') %>

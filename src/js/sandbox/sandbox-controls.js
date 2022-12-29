@@ -32,10 +32,6 @@ let mouseData = {
 
 // document.oncontextmenu = () => false
 
-// enable/disable draw controls
-enableDrawControls();
-// disableControls()
-
 
 
 // A function that enables draw controls
@@ -50,10 +46,11 @@ function enableDrawControls() {
   // The following code is run when the mouse is moved:
   // Purpose: indicates what wall is being hovered, also during multi-edit: it adjusts which cells have pending wall based on mouse's movement
   document.onmousemove = function(ev){
-    mouseData.x = ev.pageX
-    mouseData.y = ev.pageY
+    mouseData.x = ev.x
+    mouseData.y = ev.y
     mouseData.t = ev.target
   }
+  
   mouseCheckInterval = setInterval(mouseInterval, intervalDelay)
 }
 
@@ -202,7 +199,7 @@ function mouseUpFunc(){
       }
     }
   );
-  wallPlaced && showSolution ? maze.aStarSolveInstant() : null
+  wallPlaced ? maze.aStarSolveInstant(showSolution) : null
   wallPlaced = false
   // showSolution ? visualizeAlg ? maze.aStarSolve(algDelay) : maze.aStarSolveInstant() : null
 };
@@ -213,8 +210,8 @@ function mouseDownFunc(ev){
   if (element.classList.contains("cell")) {
     // checks if the element that was clicked on is a cell
     const click = {
-      x: ev.pageX,
-      y: ev.pageY,
+      x: ev.x,
+      y: ev.y,
     };
     editInterval(25)
     startCell = maze.getCellObject(element);
@@ -272,7 +269,7 @@ function mouseUpFuncErase(){
       cell_col == maze.totalColumns-1 && !cell.isRightWall() ? cell.toggleEntrance(true) : null
     }
   })
-  wallPlaced && showSolution ? maze.aStarSolveInstant() : null
+  wallPlaced ? maze.aStarSolveInstant(showSolution) : null
   wallPlaced = false
 }
 function mouseDownFuncErase(ev){

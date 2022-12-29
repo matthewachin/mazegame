@@ -1,5 +1,7 @@
-let maze = new Maze(40, 40);
+let maze = new Maze(null);
 let timer = new Timer()
+const user = {username: 'Matthew Chin'}
 timer.on(30)
-maze.loadTable(savedMaze)
-
+// time(maze.loadTable(), savedMaze)
+// time()
+loadNewMaze(JSON.parse(document.getElementById('start-maze-data').innerHTML))

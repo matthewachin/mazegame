@@ -1,0 +1,109 @@
+<%- include('partials/head.ejs') %>
+<body>
+  <%- include('partials/nav.ejs') %>
+  <div class="editor-settings-div">
+    <div class="editor-settings-row">
+      <div class="logo-menu-div row-section">
+        <button type="button" class="toggle-menu btn btn-outline-dark" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+          <svg class='menu-button-icon' xmlns="http://www.w3.org/2000/svg" fill="white" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+          </svg>
+        </button>
+        <div class="main-name">
+          <img class='main-logo' src="/images/only-logo.png">
+          <h1 class="main-title main-logo-title">MazeLabs</h1>
+        </div>
+      </div>
+      <div class="editor-settings-toggle-group row-section" id="radioContainer1">
+        <button type="button" class="myRadioButton radioGroup1 radio1-selected">Maze</button>
+        <button type="button" class="myRadioButton radioGroup1">Algorithms</button>
+        <button type="button" class="myRadioButton radioGroup1">Editor</button>
+      </div>
+      <div class="finish-buttons row-section">
+        <button type="button" class="myButton pathButton" id="feedback-button">Show Feedback</button>
+        <!-- <button type="button" class="myButton limegreenButton" id="save-button">Save</button> -->
+        <button type="button" class="myButton yellowButton" id="publish-button">Publish</button>
+      </div>
+    </div>
+    <div class="editor-settings-row sub-row" id="maze-settings">
+      <div class="row-section">
+        <h6 class="group-button-label">Dimensions</h6>
+        <div class="text-input-div">
+          <label class='myTextLabel' for="row-size">Row Size</label>
+          <input class='myText' type="text" min="5" max="200" value="20" id="row-size" placeholder='Row Size (Cell)' name="row-size">
+        </div>
+        <div class="text-input-div">
+          <label class='myTextLabel' for="column-size">Column Size</label>
+          <input class='myText' type="text" min="5" max="200" value="20" id="column-size" placeholder='Column Size (Cell)' name="column-size">
+        </div>
+        <button type="button" class="myButton limegreenButton" id="submit-dimensions-button">Comfirm</button>
+      </div>
+      <div class="row-section">
+        <h6 class="group-button-label">Mode</h6>
+        <div id="radioContainer2">
+          <button type="button" class="myRadioButton radioGroup2 radio2-selected">Draw</button>
+          <button type="button" class="myRadioButton radioGroup2">Erase</button>
+        </div>
+      </div>
+      <div class="row-section">
+        <button type="button" class="myButton" id="clear-maze-button">Clear</button>
+      </div>
+    </div>
+    <div id='algs-settings' class='sub-row editor-settings-row hidden'>
+      <div class="row-section">
+        <h6 class="group-button-label">Maze Generation</h6>
+        <button type="button" class="myButton limegreenButton" id="generate-maze-button">Generate Maze</button>
+      </div>
+      <div class="row-section">
+        <h6 class="group-button-label">Show Solution</h6>
+        <div id="radioContainer4">
+          <button type="button" class="myRadioButton radioGroup4 radio-left">On</button>
+          <button type="button" class="myRadioButton radioGroup4 radio-right radio4-selected">Off</button>
+        </div>
+      </div>
+      <div class="row-section">
+        <h6 class="group-button-label">Visualize</h6>
+        <div id="radioContainer5">
+          <button type="button" class="myRadioButton radioGroup5 radio-left radio5-selected">On</button>
+          <button type="button" class="myRadioButton radioGroup5 radio-right">Off</button>
+        </div>
+        <h6 class="group-button-label">Speed</h6>
+        <div class="myRangeDiv">
+          <label for="algorithm-speed" class="myRangeLabel" id="algorithm-speed-label">1 ms</label>
+          <input type="range" class="myRange" onchange="delay_change(this.value)" id="algorithm-speed" min="0" max="15" step="0.5" value="1">
+        </div>
+      </div>
+    </div>
+    <div id='editor-settings' class='sub-row editor-settings-row hidden'>
+      <div class="row-section">
+        <h6 class="group-button-label">Cell Size</h6>
+        <div class="text-input-div">
+          <label class='myTextLabel' for="row-size">Cell Size</label>
+          <input class='myText' type="text" min="5" max="200" value="15" id="cell-size" placeholder='Cell Size (px)' name="cell-size">
+        </div>
+        <button type="button" class="myButton limegreenButton" id="submit-size-button">Comfirm</button>
+      </div>
+      <div class="row-section">
+        <h6 class="group-button-label">Show Grid Lines</h6>
+        <div id="radioContainer3">
+          <button type="button" class="myRadioButton radioGroup3 radio-left radio3-selected">On</button>
+          <button type="button" class="myRadioButton radioGroup3 radio-right">Off</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div id="feedback-div" class="hidden">
+      <div id="feedback-section">
+        <h3 id="feedback-title">Feedback</h3>
+        <p id="feedback-text" class="feedback-medium">No feedback yet. :)</p>
+      </div>
+      <button type="button" class="btn-close btn-close-white" aria-label="Close" id="hide-feedback"></button>
+    </div>
+  </div>
+  <div id="main-grid-div"><table id="main-grid"></table></div>
+  <%- include('partials/universal-scripts.ejs') %>
+  <script src="/js/sandbox/sandbox-controls.js"></script>
+  <script src="/js/sandbox/sandbox.js"></script>
+  <script src="/js/sandbox/sandbox-settings.js"></script>
+</body>
+<%- include('partials/footer.ejs') %>

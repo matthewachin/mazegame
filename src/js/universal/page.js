@@ -41,3 +41,24 @@ function switchMode(colorMode){
     }
   }
 }
+function displayFeedback(text, type, force=false){
+  const feedbackElement = document.getElementById('feedback-text')
+  if(type == 'good'){
+    feedbackElement.classList.add('feedback-good')
+    feedbackElement.classList.remove('feedback-bad')
+    feedbackElement.classList.remove('feedback-medium')
+  }else if(type == 'bad'){
+    feedbackElement.classList.add('feedback-bad')
+    feedbackElement.classList.remove('feedback-good')
+    feedbackElement.classList.remove('feedback-medium')
+  }else{
+    feedbackElement.classList.remove('feedback-good')
+    feedbackElement.classList.add('feedback-medium')
+    feedbackElement.classList.remove('feedback-bad')
+  }
+  feedbackElement.innerHTML = text
+  force ? toggleFeedback(true) : null
+}
+function setCellSize(s){
+  document.querySelector(':root').style.setProperty('--cellSize', `${s}px`)
+}
