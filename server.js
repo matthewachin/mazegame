@@ -9,7 +9,6 @@ const session = require('express-session');
 const passport = require('passport');
 const { json } = require('express');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const cookieParser = require('cookie-parser')
 
 
 const cookie_secret = 'jgbnhrftljoig3rwbliouethneiuagba'
@@ -36,9 +35,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.set('view engine', 'ejs');
-
-//.............Define server routes..............................//
-//Express checks routes in the order in which they are defined
 
 app.get('/', (req, res)=> {
   res.status(200);
