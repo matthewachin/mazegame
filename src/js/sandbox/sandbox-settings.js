@@ -17,6 +17,10 @@ document.getElementById('submit-size-button').addEventListener('click', (e)=>{
   setCellSize(Number(document.getElementById('cell-size').value))
 })
 
+document.getElementById('maze-title').addEventListener('keyup', (e)=>{
+  maze.title = e.target.value
+  console.log(maze.title)
+})
 
 function toggleFeedback(force){
   // true = show

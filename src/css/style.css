@@ -761,7 +761,7 @@ table{
   max-width: 12rem; 
   margin: 0 1rem; 
   position: absolute;
-  transform: translateX(-20rem);
+  transform: translateX(-22rem);
   transition: all 1s linear 0s;
 }
 .letterShow{

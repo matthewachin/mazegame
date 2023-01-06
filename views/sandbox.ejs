@@ -46,7 +46,7 @@
         </div>
       </div>
       <div class="row-section">
-        <button type="button" class="myButton" id="clear-maze-button">Clear</button>
+        <button type="button" class="myButton" id="clear-maze-button">Reset Maze</button>
       </div>
     </div>
     <div id='algs-settings' class='sub-row editor-settings-row hidden'>
@@ -83,6 +83,13 @@
         </div>
         <button type="button" class="myButton limegreenButton" id="submit-size-button">Comfirm</button>
       </div>
+      <div class='row-section'>
+        <h6 class="group-button-label">Maze Title</h6>
+        <div class="text-input-div">
+          <label class='myTextLabel' for="maze-title">Maze Title</label>
+          <input class='myText' type="text" min="5" max="200" value="Anonymous Maze" id="maze-title" placeholder='Maze Title' name="maze-title">
+        </div>
+      </div>
       <div class="row-section">
         <h6 class="group-button-label">Show Grid Lines</h6>
         <div id="radioContainer3">
@@ -101,6 +108,7 @@
     </div>
   </div>
   <div id="main-grid-div"><table id="main-grid"></table></div>
+  <div class='hidden'><p id="user" style="font-size: 0;"><%=user%></p></div>
   <%- include('partials/universal-scripts.ejs') %>
   <script src="/js/sandbox/sandbox-controls.js"></script>
   <script src="/js/sandbox/sandbox.js"></script>

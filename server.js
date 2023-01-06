@@ -3,8 +3,8 @@ const express = require('express');
 const fs = require('fs');
 const ejs = require('ejs');
 
-const GOOGLE_CLIENT_ID = null
-const GOOGLE_CLIENT_SECRET = null
+const GOOGLE_CLIENT_ID = '652680169371-2pl6q3s84k8bso2remo02uchdbmorjtu.apps.googleusercontent.com'
+const GOOGLE_CLIENT_SECRET = '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'
 const session = require('express-session');
 const passport = require('passport');
 const { json } = require('express');
@@ -166,7 +166,9 @@ app.post('/create', (req, res)=>{
 app.get('/sandbox', isLogged, (req, res)=>{
   res.status(200)
   res.setHeader('Content-Type', 'text/html')
-  res.render('sandbox')
+  const id = req.session.passport.user
+  const user = getUser(id)
+  res.render('sandbox', {user: JSON.stringify(user)})
 })
 app.post('/sandbox', (req, res) => {
   try{
@@ -193,7 +195,12 @@ app.get('/solve/:mazeID', isLogged, (req, res)=>{
     const mazeID = req.params.mazeID
     res.status(200)
     res.setHeader('Content-Type', 'text/html')
-    res.render('solve', {mazeinfo: JSON.stringify(getMaze(mazeID))})
+    const id = req.session.passport.user
+    const user = getUser(id)
+    res.render('solve', {
+      mazeinfo: JSON.stringify(getMaze(mazeID)),
+      user: JSON.stringify(user)
+    })
   }catch{
     res.redirect('/maze-list')
   }
@@ -239,7 +246,7 @@ app.get('/maze-list', isLogged, (req, res)=>{
         creator : mazeData.creator,
       }
     })
-    res.render('maze-list', {data:loadingMazes})
+    res.render('maze-list', {data:loadingMazes, user:JSON.stringify(getUser(req.session.passport.user))})
   }catch{
     res.render("error", {
       "errorCode" : '404'
@@ -247,6 +254,18 @@ app.get('/maze-list', isLogged, (req, res)=>{
     })
   }
 })
+
+app.get('/profile', isLogged, (req, res)=>{
+  res.render('profile', {
+    username: 'Matthew Chin',
+    mazes: [{
+      title: 'Maze 1',
+      dimensions: [20, 20],
+    }],
+
+  })
+})
+
 // Because routes/middleware are applied in order,
 // this will act as a default error route in case of
 // a req fot an invalid route

@@ -12,7 +12,7 @@ class Maze {
       this.highestscorer = '';
       this.highscore = 0;
       this.title = "Anonymous Maze";
-      this.creator = user.username; //TODO: user.username
+      this.creator = user.username || 'Anonymouse User'; //TODO: user.username
       this.solves = 0;
       this.difficulty = null;
       this.wallcount;

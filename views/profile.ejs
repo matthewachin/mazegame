@@ -1,0 +1,31 @@
+<%- include('partials/head.ejs') %>
+<body>
+  <div id="center-title-div">
+    <h1 class='main-title'id="center-title"><%= username %></h1>
+  </div>
+  <%- include('partials/nav.ejs') %>
+  <div class="editor-settings-div">
+    <div class="editor-settings-row" id="es-row">
+      <div class="logo-menu-div row-section 3-row">
+        <button type="button" class="toggle-menu btn btn-outline-dark" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+          <svg class='menu-button-icon' xmlns="http://www.w3.org/2000/svg" fill="white" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+          </svg>
+        </button>
+        <div class="main-name">
+          <img class='main-logo' src="/images/only-logo.png">
+          <h1 class="main-title main-logo-title">MazeLabs</h1>
+        </div>
+      </div>
+      <div class='row-section 3-row'>
+        <button class='myButton pathButton' onclick='window.location.href = "/"'>Edit Username</button>
+      </div>
+    </div>
+  </div>
+  <div class='profile-name'>
+    
+  </div>
+  <%- include('partials/universal-scripts.ejs') %>
+  <script src="/js/maze-list/maze-list-settings.js"></script>
+</body>
+<%- include('partials/footer.ejs') %>
