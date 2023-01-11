@@ -49,7 +49,7 @@ document.getElementById('publish-button').addEventListener('click', (e)=>{
   if(!(Array.from(document.getElementsByClassName('entrance')).length == 2)){
     displayFeedback('Failed to publish. Mazes must have 2 entrances.', 'bad')
   }else{
-    if(maze.aStarSolveInstant === false){
+    if(maze.aStarSolveInstant() === false){
       displayFeedback('Failed to publish. Maze is unsolvable.')
     }
     const data = maze.generateObject()
@@ -185,3 +185,11 @@ group5.addClick(1, (e)=>{
   group5.newSelection(e.target)
   visualizeAlg = false
 })
+
+
+setCellSize(user.settings.cell_size)
+toggleGrid(user.settings.grid_lines)
+
+if(!user.settings.grid_lines){
+  group3.newSelection(document.getElementsByClassName('radioGroup3 radio-right')[0])
+}

@@ -62,3 +62,10 @@ function displayFeedback(text, type, force=false){
 function setCellSize(s){
   document.querySelector(':root').style.setProperty('--cellSize', `${s}px`)
 }
+function toggleGrid(force){
+  if(force){
+    document.querySelector(':root').style.setProperty('--gridLine', 'rgb(67, 53, 53)')
+  }else{
+    document.querySelector(':root').style.setProperty('--gridLine', 'transparent')
+  }
+}

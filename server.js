@@ -11,7 +11,7 @@ const { json } = require('express');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 
-const cookie_secret = 'jgbnhrftljoig3rwbliouethneiuagba'
+const cookie_secret = createMazeID([], 64)
 
 //..............Create an Express server object..................//
 const app = express();
@@ -39,7 +39,9 @@ app.set('view engine', 'ejs');
 app.get('/', (req, res)=> {
   res.status(200);
   res.setHeader('Content-Type', 'text/html')
-  res.render("index");
+  res.render("index", {
+    nav: 'simple',
+  });
 });
 
 passport.use(new GoogleStrategy({
@@ -78,12 +80,16 @@ app.get('/login', (req, res)=>{
   }catch{
 res.status(200);
   res.setHeader('Content-Type', 'text/html')
-  res.render("login");
+  res.render("login", {
+    nav: 'simple',
+  });
   }
 })
 app.get('/create', isLogged, (req, res)=>{
   res.setHeader('Content-Type', 'text/html')
-  res.render("create");
+  res.render("create", {
+    nav: 'simple',
+  });
 })
 app.post('/create', (req, res)=>{
   const username = req.body.username
@@ -92,7 +98,8 @@ app.post('/create', (req, res)=>{
   userData.username = username
   writeUser(id, userData)
   res.send({
-    'type' : 'success'
+    'type' : 'success',
+    'nav' : 'simple',
   })
 })
 // app.post('/login', (req, res)=>{
@@ -168,12 +175,19 @@ app.get('/sandbox', isLogged, (req, res)=>{
   res.setHeader('Content-Type', 'text/html')
   const id = req.session.passport.user
   const user = getUser(id)
-  res.render('sandbox', {user: JSON.stringify(user)})
+  res.render('sandbox', {
+    user: JSON.stringify(user),
+    nav: 'complex',
+  })
 })
 app.post('/sandbox', (req, res) => {
   try{
+    const userID = req.session.passport.user
+    let userData = getUser(userID)
     let requestData = req.body
     const MazeID = createMaze(requestData)
+    userData.mazes.push(MazeID)
+    writeUser(userID, userData)
     res.status(200)
     res.send(JSON.stringify(`Successfully saved Maze with ID: ${MazeID}`))
   }catch(e){
@@ -199,7 +213,8 @@ app.get('/solve/:mazeID', isLogged, (req, res)=>{
     const user = getUser(id)
     res.render('solve', {
       mazeinfo: JSON.stringify(getMaze(mazeID)),
-      user: JSON.stringify(user)
+      user: JSON.stringify(user),
+      nav: 'complex',
     })
   }catch{
     res.redirect('/maze-list')
@@ -246,24 +261,96 @@ app.get('/maze-list', isLogged, (req, res)=>{
         creator : mazeData.creator,
       }
     })
-    res.render('maze-list', {data:loadingMazes, user:JSON.stringify(getUser(req.session.passport.user))})
+    res.render('maze-list', {
+      data: loadingMazes, 
+      user: JSON.stringify(getUser(req.session.passport.user)),
+      nav: 'complex',
+    })
   }catch{
     res.render("error", {
-      "errorCode" : '404'
+      "errorCode" : '404', 
+      nav: 'simple',
       // TODO: Adjust error code
     })
   }
 })
 
 app.get('/profile', isLogged, (req, res)=>{
-  res.render('profile', {
-    username: 'Matthew Chin',
-    mazes: [{
-      title: 'Maze 1',
-      dimensions: [20, 20],
-    }],
-
+  const userID = req.session.passport.user
+  const userData = getUser(userID)
+  let mazes = userData.mazes
+  mazes = mazes.map((id)=>{
+    const mazeData = getMaze(id)
+    return {
+      id :id, 
+      title : mazeData.title,
+      totalRows : mazeData.totalRows,
+      totalColumns : mazeData.totalColumns,
+      difficulty : mazeData.difficulty,
+      solves : mazeData.solves,
+    }
   })
+  res.render('profile', {
+    user:JSON.stringify(getUser(req.session.passport.user)),
+    data: mazes,
+    nav: 'complex',
+  })
+})
+
+app.get('/logout', isLogged, (req, res)=>{
+  req.session.destroy()
+  res.render("logout", {
+    nav: 'simple',
+  })
+})
+
+app.post('/profile', (req, res)=>{
+  try{
+    const changes = req.body
+    const userID = req.session.passport.user
+    let userData = getUser(userID)
+    userData.settings.grid_lines = changes.grid_lines
+    userData.settings.cell_size = changes.cell_size
+    if('username' in changes){
+      userData.username = changes.username
+      const username = userData.username
+      userData.mazes.forEach((mazeID)=>{
+        let mazeData = getMaze(mazeID)
+        mazeData.creator = username
+        writeMaze(mazeID, mazeData)
+      })
+    }
+    writeUser(userID, userData)
+    res.status(200)
+    res.send(JSON.stringify('Success'))
+  }catch{
+    res.send(JSON.stringify('Failed to update user info.'))
+    res.status(400)
+  }
+})
+
+app.post('/deleteMaze', (req,res)=>{
+  try{
+    const mazeID = req.body.id
+    const userID = req.session.passport.user
+    let userData = getUser(userID)
+    if(userData.mazes.includes(mazeID)){
+      let MazeIDs = JSON.parse(fs.readFileSync('data/mazeList.json'))
+      MazeIDs.splice(MazeIDs.indexOf(mazeID), 1)
+      userData.mazes.splice(userData.mazes.indexOf(mazeID), 1)
+      fs.writeFileSync('data/mazeList.json', JSON.stringify(MazeIDs))
+      fs.unlinkSync(`data/mazes/${mazeID}_MAZE.json`)
+      writeUser(userID, userData)
+      res.status(200)
+      res.send(JSON.stringify('success'))
+    }else{
+      res.status(400)
+      res.send(JSON.stringify('Failed, user does not own the maze.'))
+    }
+  }catch{
+    res.status(400)
+    res.send(JSON.stringify('failed to delete maze'))
+  }
 })
 
 // Because routes/middleware are applied in order,
@@ -273,7 +360,8 @@ app.use("", (req, res)=>{
   res.status(404);
   res.setHeader('Content-Type', 'text/html')
   res.render("error", {
-    "errorCode":"404"
+    "errorCode":"404",
+    nav: 'simple',
   });
 });
 
@@ -282,23 +370,6 @@ const port = process.env.PORT || 3000;
 app.listen(port, function() {
   console.log('Server started at http://localhost:'+port+'.')
 });
-
-function deleteMaze(userID, mazeID){
-  try{
-    const mazeData = getMaze(mazeID)
-    if(mazeData.userID == userID){
-      let MazeIDs = JSON.parse(fs.readFileSync('data/mazeList.json'))
-      MazeIDs.splice(MazeIDs.indexOf(mazeID), 1)
-      fs.writeFileSync('data/mazeList.json', JSON.stringify(MazeIDs))
-      fs.unlinkSync(`data/mazes/${id}_MAZE.json`)
-
-    }else{
-      throw "ERROR: Failed to delete maze. User doesn't own maze."
-    }
-  }catch{
-    throw 'ERROR: Failed to delete maze.'
-  }
-}
 
 
 function createMaze(mazeObj){
@@ -358,9 +429,6 @@ function createUser(id, users){
       // mazeID : score
     },
     settings : {
-      wall_color : '#3d98e3',
-      path_color : '#ffae00',
-      user_path_color : '#7d32af',
       grid_lines : true,
       cell_size : 15,
     }
@@ -372,7 +440,9 @@ function createUser(id, users){
 function writeUser(id, userData){
   fs.writeFileSync(`data/users/${id}.json`,JSON.stringify(userData))
 }
-
+function writeMaze(id, mazeData){
+  fs.writeFileSync(`data/mazes/${id}_MAZE.json`, JSON.stringify(mazeData))
+}
 function isLogged(req, res, next){
   try{
     const id = req.session.passport.user
@@ -386,4 +456,7 @@ function isLogged(req, res, next){
     res.redirect('/login')
     throw 'Not logged in. Access not granted.'
   }
+}
+function usernameChange(username){
+
 }

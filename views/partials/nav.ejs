@@ -1,22 +1,29 @@
-<div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="true" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-  <div class="offcanvas-header">
-    <div class="main-name">
-      <img class='offcanvas-title main-logo' src="/images/only-logo.png">
-      <h1 class="offcanvas-title main-title main-logo-title" id="offcanvasScrollingLabel">MazeLabs</h1>
+<% if(nav == 'complex'){ %>
+  <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="true" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+    <div class="offcanvas-header">
+      <div class="main-name">
+        <img class='offcanvas-title main-logo' src="/images/only-logo.png">
+        <h1 class="offcanvas-title main-title main-logo-title" id="offcanvasScrollingLabel">MazeLabs</h1>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <h6 class='nav-sign'>Logged in as <%= JSON.parse(user).username %>!</h6>
     </div>
-    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <div class="nav-links-div">
-      <a class="nav-link" href="/">Home</a>
-      <a class="nav-link" href="/profile">Profile</a>
-      <a class="nav-link" href="/sandbox">Maze Editor</a>
-      <a class="nav-link" href="/maze-list">Maze List</a>
-      <a class="nav-link" href="/about">About</a>
-      <div class="nav-desc hidden">
-        <h5 class='nav-desc-title'>Home</h5>
-        <p class="nav-desc-text">Some words go here. Some words go here. Some words go here. Some words go here. Some words go here.</p>
+    <div class="offcanvas-body">
+      <div class="nav-links-div">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/profile">Profile</a>
+        <a class="nav-link" href="/sandbox">Maze Editor</a>
+        <a class="nav-link" href="/maze-list">Maze List</a>
+        <a class="nav-link logout-color" href="/logout">Logout</a>
       </div>
     </div>
   </div>
-</div>
+<% }else{ %>
+  <div class='hor-nav'>
+    <a class="nav2-link" href="/">Home</a>
+    <a class="nav2-link" href="/login">Login</a>
+    <a class="nav2-link" href="/profile">Profile</a>
+    <a class="nav2-link" href="/sandbox">Maze Editor</a>
+    <a class="nav2-link" href="/maze-list">Maze List</a>
+  </div>
+<% } %>
