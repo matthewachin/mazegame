@@ -231,6 +231,7 @@ app.get('/solve' ,isLogged, (req,res)=>{
 app.post('/solve', isLogged, (req, res)=>{
   // res.redirect('/maze-list')
   try{
+    const userID = req.session.passport.user
     const requestData = req.body
     const MazeID = requestData.id
     let mazeSavedData = getMaze(MazeID)
@@ -238,6 +239,9 @@ app.post('/solve', isLogged, (req, res)=>{
       mazeSavedData[property] = requestData[property]
     }
     fs.writeFileSync(`data/mazes/${MazeID}_MAZE.json`, JSON.stringify(mazeSavedData))
+    let userInfo = getUser(userID)
+    userInfo.solved.push(MazeID)
+    writeUser(userID, userInfo)
     res.send(JSON.stringify(`Successfully saved changes to Maze with ID: ${MazeID}`))
   }catch{
     res.send(JSON.stringify('Failed to upload.'))
@@ -437,9 +441,7 @@ function createUser(id, users){
   let newUser = {
     username : null,
     mazes : [],
-    solved : {
-      // mazeID : score
-    },
+    solved : [],
     settings : {
       grid_lines : true,
       cell_size : 15,
