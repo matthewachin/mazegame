@@ -41,8 +41,8 @@ function switchMode(colorMode){
     }
   }
 }
-function displayFeedback(text, type, force=false){
-  const feedbackElement = document.getElementById('feedback-text')
+function displayFeedback(text, type, force=false, id='feedback-text'){
+  const feedbackElement = document.getElementById(id)
   if(type == 'good'){
     feedbackElement.classList.add('feedback-good')
     feedbackElement.classList.remove('feedback-bad')

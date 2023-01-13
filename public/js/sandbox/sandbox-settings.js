@@ -63,9 +63,11 @@ document.getElementById('publish-button').addEventListener('click', (e)=>{
     .then((response)=>response.json())
     .then((data) => {
       console.log('SERVER RESPONSE:', data);
+      displayFeedback(data, 'good', true)
     })
     .catch((error) => {
       console.error('SERVER RESPONSE (ERROR):', error);
+      displayFeedback(error, 'bad', false)
     });
   }
 })

@@ -12,3 +12,7 @@ Array.from(document.getElementsByClassName('mazes-row')).forEach((e)=>{
 // document.getElementById('create-button').addEventListener('click', (e)=>{
 //   window.location.href = '/sandbox'
 // })
+
+document.getElementById('header-row').addEventListener('click',(e)=>{
+  document.getElementById('').submit()
+})

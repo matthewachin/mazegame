@@ -831,6 +831,7 @@ class Maze {
       }
       for (let col = 0; col < this.totalColumns; col++) {
         this.grid[this.totalRows - 1][col].toggleBottomWall(true);
+        this.grid[this.totalRows - 1][col].toggleMazeEdge(true)
       }
     }
   }
@@ -881,6 +882,7 @@ class Maze {
       }
       for (let row = 0; row < this.totalRows; row++) {
         this.grid[row][this.totalColumns - 1].toggleRightWall(true);
+        this.grid[row][this.totalColumns - 1].toggleMazeEdge(true)
       }
     }
     this.solution = this.aStarSolveInstant(false);

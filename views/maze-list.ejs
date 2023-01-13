@@ -33,6 +33,14 @@
       <a id='create-link' href="/sandbox">or</a>
       <button class="myButton limegreenButton" id="create-maze-button" onclick="window.location.href='/sandbox'">Create a Maze</button>
       <br>
+      <br>
+      <h1 class="info-card-title maze-hub-title">Enter Number of Mazes to Show</h1>
+      <form>
+        <input type="text" placeholder="Enter Amount of Mazes to Show" id='maze-count' name='count' value="<%= count %>"></input>
+        <button class="myButton limegreenButton" type='submit'>Submit Changes</button>
+      </form>
+      <br>
+      <br>
       <table id="maze-list">
         <tr class="maze-list-row maze-list-header-row">
           <td class="maze-list-data maze-list-header">Title</td>

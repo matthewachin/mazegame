@@ -27,6 +27,9 @@
         <h2 class='profile-header'>User Settings</h2>
       </div>
       <div class='profile-row'>
+        <p id="profile-feedback" class='feedback-medium'>No feedback yet.</p>
+      </div>
+      <div class='profile-row'>
         <div class="input-field-div">
           <label for="username" class="input-label">Username</label>
           <input type="text" class="login-field" id="profile-username" placeholder="Enter your username" value='<%= userData.username %>'>
@@ -50,8 +53,6 @@
           <button class="myButton limegreenButton" id='profile-submit'>Submit Changes</button>
         </div>
       </div>
-  
-      
     </div>
     <div class='profile-section'>
       <h2 class='profile-header'>Your Mazes</h2>

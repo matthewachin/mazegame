@@ -19,7 +19,7 @@ const app = express();
 //..............Apply Express middleware to the server object....//
 app.use(express.json()); //Used to parse JSON bodies (needed for POST reqs)
 app.use(express.urlencoded());
-app.use(express.static('src')); //specify location of static assests
+app.use(express.static('public')); //specify location of static assests
 app.set('views', __dirname + '/views'); //specify location of templates
 app.set('view engine', 'ejs'); //specify templating library
 
@@ -41,6 +41,7 @@ app.get('/', (req, res)=> {
   res.setHeader('Content-Type', 'text/html')
   res.render("index", {
     nav: 'simple',
+    logged : false,
   });
 });
 
@@ -82,6 +83,7 @@ res.status(200);
   res.setHeader('Content-Type', 'text/html')
   res.render("login", {
     nav: 'simple',
+    logged : false,
   });
   }
 })
@@ -89,6 +91,7 @@ app.get('/create', isLogged, (req, res)=>{
   res.setHeader('Content-Type', 'text/html')
   res.render("create", {
     nav: 'simple',
+    logged:true,
   });
 })
 app.post('/create', (req, res)=>{
@@ -178,6 +181,7 @@ app.get('/sandbox', isLogged, (req, res)=>{
   res.render('sandbox', {
     user: JSON.stringify(user),
     nav: 'complex',
+    logged: true,
   })
 })
 app.post('/sandbox', (req, res) => {
@@ -215,6 +219,7 @@ app.get('/solve/:mazeID', isLogged, (req, res)=>{
       mazeinfo: JSON.stringify(getMaze(mazeID)),
       user: JSON.stringify(user),
       nav: 'complex',
+      logged: true,
     })
   }catch{
     res.redirect('/maze-list')
@@ -240,9 +245,10 @@ app.post('/solve', isLogged, (req, res)=>{
 
 })
 app.get('/maze-list', isLogged, (req, res)=>{
+  let count = req.query.count == null ? 25 : req.query.count
   try{
     let mazeIds = getMazeIDs()
-    const mazeCount = Math.min(mazeIds.length, 20)
+    const mazeCount = Math.min(mazeIds.length, count)
     let loadingMazes = []
     for(let i = 0; i < mazeCount; i++){
       const index = randomInt(mazeIds.length)
@@ -265,11 +271,14 @@ app.get('/maze-list', isLogged, (req, res)=>{
       data: loadingMazes, 
       user: JSON.stringify(getUser(req.session.passport.user)),
       nav: 'complex',
+      count : count,
+      logged:true,
     })
   }catch{
     res.render("error", {
       "errorCode" : '404', 
       nav: 'simple',
+      logged:true,
       // TODO: Adjust error code
     })
   }
@@ -294,6 +303,7 @@ app.get('/profile', isLogged, (req, res)=>{
     user:JSON.stringify(getUser(req.session.passport.user)),
     data: mazes,
     nav: 'complex',
+    logged: true,
   })
 })
 
@@ -301,6 +311,7 @@ app.get('/logout', isLogged, (req, res)=>{
   req.session.destroy()
   res.render("logout", {
     nav: 'simple',
+    logged:false,
   })
 })
 
@@ -322,7 +333,7 @@ app.post('/profile', (req, res)=>{
     }
     writeUser(userID, userData)
     res.status(200)
-    res.send(JSON.stringify('Success'))
+    res.send(JSON.stringify('Successfully updated user info.'))
   }catch{
     res.send(JSON.stringify('Failed to update user info.'))
     res.status(400)
@@ -362,6 +373,7 @@ app.use("", (req, res)=>{
   res.render("error", {
     "errorCode":"404",
     nav: 'simple',
+    logged:false,
   });
 });
 

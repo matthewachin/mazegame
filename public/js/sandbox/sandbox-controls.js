@@ -189,6 +189,7 @@ function mouseUpFunc(){
       isDrawing ? cell.toggleClass(true, direction, 'wall') : cell.toggleClass(false, direction, 'wall')
       wallPlaced = true
       if(cell.isMazeEdge()){
+        console.log('true')
         const cell_row = cell.row
         const cell_col = cell.col
         cell.toggleEntrance(false)

@@ -2,9 +2,13 @@
     <div class="horizontal"></div>
     <div class="footer-links">
       <a class="footer-link" href="/">Home</a>
-      <a class="footer-link" href='/login' >Login</a>
       <a class="footer-link" href="/sandbox">Sandbox</a>
       <a class="footer-link" href="/maze-list">Maze List</a>
+      <% if(!logged){%>
+        <a class="footer-link" href='/login' >Login</a>
+      <% }else{ %>
+        <a class="footer-link" href='/logout' >Logout</a>
+      <%}%>
     </div>
     <div class="footer-end">
       <div class="main-name">

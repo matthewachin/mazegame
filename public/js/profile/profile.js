@@ -95,9 +95,11 @@ document.getElementById('profile-submit').addEventListener('click', (e)=>{
     .then((response)=>response.json())
     .then((res) => {
       console.log('SERVER RESPONSE:', res);
+      displayFeedback(res, 'good', false, 'profile-feedback')
     })
     .catch((error) => {
       console.error('SERVER RESPONSE (ERROR):', error);
+      displayFeedback(error, 'bad', false, 'profile-feedback')
     });
   } 
 })
