@@ -526,10 +526,7 @@ table{
   width: 10rem;
   /* border: .1rem solid red; */
   font-family: monospace;
-  transform: translate(0, .25rem);
-}
-#main-grid-div{
-
+  transform: translate(0, 0.25rem);
 }
 .limegreenButton{
   color: var(--save);
@@ -1172,9 +1169,6 @@ table{
 #es-row{
   background-color: var(--darkerBackground);
   
-}
-.gamemode-card{
-
 }
 #maze-title{
   width: auto;
