@@ -47,28 +47,29 @@ document.getElementById('publish-button').addEventListener('click', (e)=>{
   // RETURN FEEDBACK!
   // save on server to published mazes when complete/update if exists
   if(!(Array.from(document.getElementsByClassName('entrance')).length == 2)){
-    displayFeedback('Failed to publish. Mazes must have 2 entrances.', 'bad')
+    displayFeedback('Failed to publish. Mazes must have 2 entrances.', 'bad', true)
   }else{
     if(maze.aStarSolveInstant() === false){
-      displayFeedback('Failed to publish. Maze is unsolvable.')
+      displayFeedback('Failed to publish. Maze is unsolvable.', 'bad', true )
+    }else{
+      const data = maze.generateObject()
+      const response = fetch('/sandbox', {
+        method: 'POST',
+        headers: {
+          'Content-Type' : 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      .then((response)=>response.json())
+      .then((data) => {
+        console.log('SERVER RESPONSE:', data);
+        displayFeedback(data, 'good', true)
+      })
+      .catch((error) => {
+        console.error('SERVER RESPONSE (ERROR):', error);
+        displayFeedback(error, 'bad', true)
+      });
     }
-    const data = maze.generateObject()
-    const response = fetch('/sandbox', {
-      method: 'POST',
-      headers: {
-        'Content-Type' : 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-    .then((response)=>response.json())
-    .then((data) => {
-      console.log('SERVER RESPONSE:', data);
-      displayFeedback(data, 'good', true)
-    })
-    .catch((error) => {
-      console.error('SERVER RESPONSE (ERROR):', error);
-      displayFeedback(error, 'bad', false)
-    });
   }
 })
 
@@ -79,18 +80,26 @@ function delay_change(value){
 
 document.getElementById('clear-maze-button').addEventListener('click', (e)=>{
   maze.resetMaze()
+  displayFeedback('Sucessfully reset maze.', 'good', false)
 })
 
 document.getElementById('generate-maze-button').addEventListener('click', (e)=>{
   visualizeAlg ? maze.generatePrimMaze(algDelay) : maze.generatePrimMazeInstant()
-  displayFeedback('Refrain from continously running generate maze. It may make your maze unsolvable.', 'medium')
-  generateMazeCount++
+  displayFeedback('Succesfully generated maze.', 'good', false)
 })
 
 
 document.getElementById('submit-dimensions-button').addEventListener('click', (e)=>{
-  maze.adjustColumn(Number(document.getElementById('column-size').value))
-  maze.adjustRow(Number(document.getElementById('row-size').value))
+  const r= Number(document.getElementById('row-size').value)
+  const c = Number(document.getElementById('column-size').value)
+  maze.adjustColumn(c)
+  maze.adjustRow(r)
+  if(r >= 100 || c >= 100){
+    displayFeedback('Mazes that have more than 100 rows or columns might not save.', 'medium', true)
+  }else{
+    displayFeedback('Successfully updated maze dimensions.', 'good', false)
+  }
+  
 })
 //TODO: Code needs to be implemented to show solution on user change
 
