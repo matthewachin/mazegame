@@ -55,7 +55,7 @@ if(!gridLines){
 Array.from(document.getElementsByClassName('delButton')).forEach((e)=>{
   e.addEventListener('click', (e)=>{
     const mazeID = e.target.getAttribute('id').slice(7)
-    const response = fetch('/deleteMaze', {
+    const response = fetch('/mazes/delete', {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json',
@@ -67,7 +67,7 @@ Array.from(document.getElementsByClassName('delButton')).forEach((e)=>{
     .then((response)=>response.json())
     .then((data) => {
       console.log('SERVER RESPONSE:', data);
-      window.location.href ='/profile'
+      window.location.href ='/users/me'
     })
     .catch((error) => {
       console.error('SERVER RESPONSE (ERROR):', error);
@@ -85,7 +85,7 @@ document.getElementById('profile-submit').addEventListener('click', (e)=>{
     if(usernameChange){
       data.username = document.getElementById('profile-username').value
     }
-    const response = fetch('/profile', {
+    const response = fetch('/users/me', {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json',

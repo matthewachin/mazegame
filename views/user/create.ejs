@@ -1,0 +1,21 @@
+<%- include('../partials/head.ejs') %>
+<body>
+  <%- include('../partials/nav.ejs') %>
+  <div class="index-section">
+    <img src="/images/bgMaze.png" id="background-image">
+    <div class="login-card">
+      <div class="main-name" id="footer-name">
+        <img class='main-logo' src="/images/only-logo.png" onclick="window.location.href='/'">
+        <h1 class="main-title main-logo-title" onclick="window.location.href='/'">MazeLabs</h1>
+      </div>
+      <div class="input-field-div">
+        <p id="login-disclaimer">Welcome to MazeLabs! Enter a username.</p>
+        <label for="username" class="input-label">Username</label>
+        <input type="text" class="login-field" id="username" placeholder="Enter your username">
+      </div>
+      <button class="myButton neonblueButton" id="login-button">Confirm</button>
+    </div>
+  </div>
+  <script src="/js/login/create.js"></script>
+</body>
+<%- include('../partials/footer.ejs') %>

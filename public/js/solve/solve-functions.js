@@ -31,7 +31,7 @@ function mazeSolved(userPath){
     highestscorer:maze.highestscorer,
     solves:maze.solves,
   }))
-  const response = fetch('/solve', {
+  const response = fetch('/mazes/play', {
     method: 'POST',
     headers: {
       'Content-Type' : 'application/json',

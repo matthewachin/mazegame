@@ -8,7 +8,7 @@ document.getElementById('login-button').addEventListener('click', ()=>{
     const data = {
       username: username,
     }
-    const response = fetch('/create', {
+    const response = fetch('/users/new', {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json',
@@ -19,7 +19,7 @@ document.getElementById('login-button').addEventListener('click', ()=>{
     .then((data) => {
       console.log('SERVER RESPONSE:', data);
       disclaimer.innerHTML = 'Success. Redirecting...'
-      window.location.href='/maze-list'
+      window.location.href='/mazes'
     })
     .catch((error) => {
       console.error('SERVER RESPONSE (ERROR):', error);

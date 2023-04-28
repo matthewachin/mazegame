@@ -52,7 +52,7 @@ function enableButtons(){
     }
   })
   Array.from(document.getElementsByClassName('toggleMazeList')).forEach((e)=>e.addEventListener('click', (e)=>{
-    window.location.href = '/maze-list'
+    window.location.href = '/mazes'
   }))
   Array.from(document.getElementsByClassName('toggleRandomMaze')).forEach((e)=>e.addEventListener('click', (e)=>{
     // TODO: INSERT LOGIC FOR GRABBING NEW MAZE & LOADING IT

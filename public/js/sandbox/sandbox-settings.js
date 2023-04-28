@@ -53,7 +53,7 @@ document.getElementById('publish-button').addEventListener('click', (e)=>{
       displayFeedback('Failed to publish. Maze is unsolvable.', 'bad', true )
     }else{
       const data = maze.generateObject()
-      const response = fetch('/sandbox', {
+      const response = fetch('/mazes/new', {
         method: 'POST',
         headers: {
           'Content-Type' : 'application/json',

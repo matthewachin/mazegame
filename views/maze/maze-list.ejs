@@ -1,0 +1,68 @@
+<%- include('../partials/head.ejs') %>
+<body>
+  <div id="center-title-div">
+    <h1 class='main-title'id="center-title">Maze List</h1>
+  </div>
+  <%- include('../partials/nav.ejs') %>
+  <div class="editor-settings-div">
+    <div class="editor-settings-row" id="es-row">
+      <div class="logo-menu-div row-section 3-row">
+        <button type="button" class="toggle-menu btn btn-outline-dark" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+          <svg class='menu-button-icon' xmlns="http://www.w3.org/2000/svg" fill="white" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+          </svg>
+        </button>
+        <div class="main-name">
+          <img class='main-logo' src="/images/only-logo.png">
+          <h1 class="main-title main-logo-title">MazeLabs</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="main-div">
+    <!-- <div class="list-info">
+      <div class="info-card-title-div maze-list-title-div">
+        <h1 class="info-card-title maze-hub-title">Select a Maze to Solve</h1>
+        <a id='create-link' href="/sandbox">or</a>
+        <button class="myButton limegreenButton" id="create-maze-button" onclick="window.location.href='/sandbox'">Create a Maze</button>
+      </div>
+    </div> -->
+    <div id="maze-list-div">
+      <!-- <h3 class="main-title" id="maze-list-title">Maze List</h3> -->
+      <h1 class="info-card-title maze-hub-title">Select a Maze to Solve</h1>
+      <a id='create-link' href="/mazes/new">or</a>
+      <button class="myButton limegreenButton" id="create-maze-button" onclick="window.location.href='/mazes/new'">Create a Maze</button>
+      <br>
+      <br>
+      <h1 class="info-card-title maze-hub-title">Enter Number of Mazes to Show</h1>
+      <form>
+        <input type="text" placeholder="Enter Amount of Mazes to Show" id='maze-count' name='count' value="<%= count %>"></input>
+        <button class="myButton limegreenButton" type='submit'>Submit Changes</button>
+      </form>
+      <br>
+      <br>
+      <table id="maze-list">
+        <tr class="maze-list-row maze-list-header-row">
+          <td class="maze-list-data maze-list-header">Title</td>
+          <td class="maze-list-data maze-list-header">Dimensions</td>
+          <td class="maze-list-data maze-list-header">Difficulty</td>
+          <td class="maze-list-data maze-list-header">Solves</td>
+          <td class="maze-list-data maze-list-header">Creator</td>
+        </tr>
+        <% for(let i = 0; i < data.length; i++){ %>
+          <tr class="maze-list-row mazes-row" onclick="window.location.href='/mazes/play/<%=data[i].id%>'">
+            <td class="maze-list-data maze-list-title" id="<%= data[i].id %>"><%= data[i].title %></td>
+            <td class="maze-list-data blueTextColor"><%= data[i].totalRows %>x<%= data[i].totalColumns %></td>
+            <td class="maze-list-data pathTextColor"><%= data[i].difficulty %></td>
+            <td class="maze-list-data pendingTextColor"><%= data[i].solves %></td>
+            <td class="maze-list-data"><%= data[i].creator %></td>
+          </tr>
+        <% } %>
+      </table>
+    </div>
+  </div>
+  <%- include('../partials/universal-scripts.ejs') %>
+  <div class='hidden'><p id="user" style="font-size: 0;"><%=user%></p></div>
+  <script src="/js/maze-list/maze-list-settings.js"></script>
+</body>
+<%- include('../partials/footer.ejs') %>
