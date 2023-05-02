@@ -1,5 +1,5 @@
 const express = require('express'), app = express.Router()
-const MazeModel = require('../models/mazes_model.js'), UserModel = require('../models/users_model.js'), AllModel = require('../models/all_model.js')
+const MazeModel = require('../models/mazes_model.js'), UserModel = require('../models/users_model.js'), AllModel = require('../models/all_model.js'), LogModel = require('../models/log_model.js')
 
 app.get('/users/new', AllModel.isLogged, (req, res)=>{
   res.setHeader('Content-Type', 'text/html')
@@ -36,7 +36,7 @@ app.get('/users/me', AllModel.isLogged, (req, res)=>{
     }
   })
   res.render('user/profile', {
-    user:JSON.stringify(UserModel.getUser(req.session.passport.user)),
+    user:UserModel.getUser(req.session.passport.user),
     data: mazes,
     nav: 'complex',
     logged: true,

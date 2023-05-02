@@ -6,14 +6,18 @@
         <h1 class="offcanvas-title main-title main-logo-title" id="offcanvasScrollingLabel">MazeLabs</h1>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-      <h6 class='nav-sign'>Logged in as <%= JSON.parse(user).username %>!</h6>
+      <h6 class='nav-sign'>Logged in as <%= user.username %>!</h6>
     </div>
     <div class="offcanvas-body">
       <div class="nav-links-div">
         <a class="nav-link" href="/">Home</a>
         <a class="nav-link" href="/users/me">Profile</a>
+        <a class="nav-link" href="/games/modes">Games</a>
         <a class="nav-link" href="/mazes/new">Maze Editor</a>
         <a class="nav-link" href="/mazes">Maze List</a>
+        <% if(user.admin){ %>
+          <a class="nav-link" href="/log">Activity Log</a>
+        <% } %>
         <a class="nav-link logout-color" href="/logout">Logout</a>
       </div>
     </div>

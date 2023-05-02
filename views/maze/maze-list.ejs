@@ -34,13 +34,6 @@
       <button class="myButton limegreenButton" id="create-maze-button" onclick="window.location.href='/mazes/new'">Create a Maze</button>
       <br>
       <br>
-      <h1 class="info-card-title maze-hub-title">Enter Number of Mazes to Show</h1>
-      <form>
-        <input type="text" placeholder="Enter Amount of Mazes to Show" id='maze-count' name='count' value="<%= count %>"></input>
-        <button class="myButton limegreenButton" type='submit'>Submit Changes</button>
-      </form>
-      <br>
-      <br>
       <table id="maze-list">
         <tr class="maze-list-row maze-list-header-row">
           <td class="maze-list-data maze-list-header">Title</td>
@@ -62,7 +55,5 @@
     </div>
   </div>
   <%- include('../partials/universal-scripts.ejs') %>
-  <div class='hidden'><p id="user" style="font-size: 0;"><%=user%></p></div>
-  <script src="/js/maze-list/maze-list-settings.js"></script>
 </body>
 <%- include('../partials/footer.ejs') %>

@@ -13,12 +13,17 @@ exports.getUsers = function(){
   return JSON.parse(fs.readFileSync('data/usersList.json'))
 }
 
+exports.isAdmin = function(id){
+  return JSON.parse(fs.readFileSync(`data/users/${id}.json`))['admin']
+}
+
 exports.isValidUser = function(id, ids){
   return ids.includes(id)
 }
 exports.createUser = function(id, users){
   let newUser = {
     username : null,
+    admin : false,
     mazes : [],
     solved : [],
     settings : {

@@ -79,7 +79,7 @@
         <h6 class="group-button-label">Cell Size</h6>
         <div class="text-input-div">
           <label class='myTextLabel' for="row-size">Cell Size</label>
-          <input class='myText' type="text" min="5" max="200" value="<%= JSON.parse(user).settings.cell_size %>" id="cell-size" placeholder='Cell Size (px)' name="cell-size">
+          <input class='myText' type="text" min="5" max="200" value="<%= user.settings.cell_size %>" id="cell-size" placeholder='Cell Size (px)' name="cell-size">
         </div>
         <button type="button" class="myButton limegreenButton" id="submit-size-button">Comfirm</button>
       </div>
@@ -108,7 +108,9 @@
     </div>
   </div>
   <div id="main-grid-div"><table id="main-grid"></table></div>
-  <div class='hidden'><p id="user" style="font-size: 0;"><%=user%></p></div>
+  <script>
+    let user = <%-JSON.stringify(user)%>
+  </script>
   <%- include('../partials/universal-scripts.ejs') %>
   <script src="/js/sandbox/sandbox-controls.js"></script>
   <script src="/js/sandbox/sandbox.js"></script>

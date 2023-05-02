@@ -1,4 +1,4 @@
-const user = JSON.parse(document.getElementById('user').innerHTML)
+// const user = JSON.parse(document.getElementById('user').innerHTML)
 
 let generateMazeCount = 0
 let maze = new Maze(20, 20);

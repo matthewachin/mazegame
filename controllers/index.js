@@ -1,5 +1,5 @@
 const express = require('express'), app = express.Router()
-const MazeModel = require('../models/mazes_model.js'), UserModel = require('../models/users_model.js'), AllModel = require('../models/all_model.js')
+const MazeModel = require('../models/mazes_model.js'), UserModel = require('../models/users_model.js'), AllModel = require('../models/all_model.js'), LogModel = require('../models/log_model.js')
 
 app.get('/', (req, res)=> {
   res.status(200);

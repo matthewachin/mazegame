@@ -1,4 +1,3 @@
-let userData = JSON.parse(document.getElementById('userData').innerHTML)
 let usernameChange = false
 
 document.getElementById('profile-username').addEventListener('keyup',()=>usernameChange=true)

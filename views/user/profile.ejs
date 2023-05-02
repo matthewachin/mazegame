@@ -1,6 +1,6 @@
 <%- include('../partials/head.ejs') %> 
 
-<% const userData = JSON.parse(user) %>
+<% const userData = user %>
 <body>
   <div id="center-title-div">
     <h1 class='main-title'id="center-title"><%= userData.username %></h1>
@@ -75,8 +75,10 @@
         <% } %>
       </table>
     </div>
-    <p class='hidden'id='userData'><%=user%></p>
   </div>
+  <script>
+    let userData = <%- JSON.stringify(user) %>
+  </script>
   <%- include('../partials/universal-scripts.ejs') %>
   <!-- <script src="/js/maze-list/maze-list-settings.js"></script> -->
   <script src='/js/profile/profile.js'></script>

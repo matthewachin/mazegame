@@ -136,8 +136,8 @@ table{
 .cell{
   padding: var(--cellSize);
   margin:0;
-  border: var(--borderSize) solid transparent;
-  border: var(--borderSize) dashed var(--gridLine);
+  border: calc(var(--cellSize)*.15) solid transparent;
+  border: calc(var(--cellSize)*.15) dashed var(--gridLine);
   user-select: none;
 }
 .entrance{
@@ -154,59 +154,59 @@ table{
 }
 .solved{
   background-color: var(--path);
-  border: var(--borderSize) solid transparent;
+  border: calc(var(--cellSize)*.15) solid transparent;
 }
 .pendingCell{
-  /* border-top: var(--borderSize) solid var(--pending);
-  border-bottom: var(--borderSize) solid var(--pending);
-  border-left: var(--borderSize) solid var(--pending);
-  border-right: var(--borderSize) solid var(--pending); */
-  /* outline: var(--borderSize) solid var(--pending); */
+  /* border-top: calc(var(--cellSize)*.15) solid var(--pending);
+  border-bottom: calc(var(--cellSize)*.15) solid var(--pending);
+  border-left: calc(var(--cellSize)*.15) solid var(--pending);
+  border-right: calc(var(--cellSize)*.15) solid var(--pending); */
+  /* outline: calc(var(--cellSize)*.15) solid var(--pending); */
   background-color: var(--pending);
 }
 .hoverCell{
-  /* border-top: var(--borderSize) solid var(--hover);
-  border-bottom: var(--borderSize) solid var(--hover);
-  border-right: var(--borderSize) solid var(--hover);
-  border-left: var(--borderSize) solid var(--hover); */
-  /* outline: var(--borderSize) solid var(--hover); */
+  /* border-top: calc(var(--cellSize)*.15) solid var(--hover);
+  border-bottom: calc(var(--cellSize)*.15) solid var(--hover);
+  border-right: calc(var(--cellSize)*.15) solid var(--hover);
+  border-left: calc(var(--cellSize)*.15) solid var(--hover); */
+  /* outline: calc(var(--cellSize)*.15) solid var(--hover); */
   background-color: var(--hover);
 }
 .topWall{
-  border-top: var(--borderSize) solid var(--wall);
+  border-top: calc(var(--cellSize)*.15) solid var(--wall);
 }
 .bottomWall{
-  border-bottom: var(--borderSize) solid var(--wall);
+  border-bottom: calc(var(--cellSize)*.15) solid var(--wall);
 }
 .rightWall{
-  border-right: var(--borderSize) solid var(--wall);
+  border-right: calc(var(--cellSize)*.15) solid var(--wall);
 }
 .leftWall{
-  border-left: var(--borderSize) solid var(--wall);
+  border-left: calc(var(--cellSize)*.15) solid var(--wall);
 }
 .topPending{
-  border-top: var(--borderSize) solid var(--pending);
+  border-top: calc(var(--cellSize)*.15) solid var(--pending);
 }
 .bottomPending{
-  border-bottom: var(--borderSize) solid var(--pending);
+  border-bottom: calc(var(--cellSize)*.15) solid var(--pending);
 }
 .rightPending{
-  border-right: var(--borderSize) solid var(--pending);
+  border-right: calc(var(--cellSize)*.15) solid var(--pending);
 }
 .leftPending{
-  border-left: var(--borderSize) solid var(--pending);
+  border-left: calc(var(--cellSize)*.15) solid var(--pending);
 }
 .topHover{
-  border-top: var(--borderSize) solid var(--hover);
+  border-top: calc(var(--cellSize)*.15) solid var(--hover);
 }
 .bottomHover{
-  border-bottom: var(--borderSize) solid var(--hover);
+  border-bottom: calc(var(--cellSize)*.15) solid var(--hover);
 }
 .rightHover{
-  border-right: var(--borderSize) solid var(--hover);
+  border-right: calc(var(--cellSize)*.15) solid var(--hover);
 }
 .leftHover{
-  border-left: var(--borderSize) solid var(--hover);
+  border-left: calc(var(--cellSize)*.15) solid var(--hover);
 }
 
 /* NAVIGATION MENU CSS */
@@ -772,6 +772,7 @@ table{
   color: var(--defaultPath);
   font-size: 2rem;
   position: relative;
+  font-weight: 200;
   /* border: .05rem solid red; */
   width: 100%;
   /* transform: translateY(3.5rem);
@@ -1292,4 +1293,38 @@ table{
 #profile-feedback{
   width:100%;
   text-align: center;
+}
+
+/* GAMES PAGE STYLING */
+.gamemodes-section{
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+  padding: 5rem 5vw;
+  /* border: 2px solid red; */
+  margin: 3rem auto;
+  box-shadow: 0px 0px 3rem black;
+  border-radius: 2rem;
+
+}
+.gamemodes-sections{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  
+}
+.gamemodes-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+}
+.gamemodes-header{
+  text-align: center;
+  width: 100%;
+  color: var(--mainText);
+}
+.gamemodes-desc{
+  color: var(--path);
 }

@@ -98,12 +98,15 @@ function addUserPath(cell){
         userPathBackwards = newUserPathFor
         cell.toggleUserPath(true)
         userPathBackwards.unshift(cell)
-      }else if(isEndOfFront){
-        userSolution = userPathForward.concat(userPathBackwards)
-        mazeSolved(userSolution)
       }else{
         cell.toggleUserPath(true)
         userPathBackwards.unshift(cell)
+      }
+      if(isEndOfFront){
+        userPathForward.pop()
+        userSolution = userPathForward.concat(userPathBackwards)
+        console.log(userSolution)
+        mazeSolved(userSolution)
       }
     }
   }

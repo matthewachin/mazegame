@@ -1,14 +1,14 @@
 const express = require('express'), app = express.Router()
-const MazeModel = require('../models/mazes_model.js'), UserModel = require('../models/users_model.js'), AllModel = require('../models/all_model.js')
+const MazeModel = require('../models/mazes_model.js'), UserModel = require('../models/users_model.js'), AllModel = require('../models/all_model.js'), LogModel = require('../models/log_model.js')
 const fs = require('fs')
 
 app.get('/mazes/new', AllModel.isLogged, (req, res)=>{
   res.status(200)
   res.setHeader('Content-Type', 'text/html')
   const id = req.session.passport.user
-  const user = UserModel.getUser(id)
+  
   res.render('maze/sandbox', {
-    user: JSON.stringify(user),
+    user: UserModel.getUser(id),
     nav: 'complex',
     logged: true,
   })
@@ -36,11 +36,12 @@ app.get('/mazes/play/:mazeID', AllModel.isLogged, (req, res)=>{
     res.setHeader('Content-Type', 'text/html')
     const id = req.session.passport.user
     const user = UserModel.getUser(id)
-    res.render('game/solve', {
-      mazeinfo: JSON.stringify(MazeModel.getMaze(mazeID)),
-      user: JSON.stringify(user),
+    res.render('maze/solve', {
+      mazeinfo: MazeModel.getMaze(mazeID),
+      user: user,
       nav: 'complex',
       logged: true,
+      game: false,
     })
   }catch{
     res.redirect('/mazes')
@@ -92,7 +93,7 @@ app.get('/mazes', AllModel.isLogged, (req, res)=>{
     })
     res.render('maze/maze-list', {
       data: loadingMazes, 
-      user: JSON.stringify(UserModel.getUser(req.session.passport.user)),
+      user: UserModel.getUser(req.session.passport.user),
       nav: 'complex',
       count : count,
       logged:true,

@@ -5,6 +5,21 @@ db.run("PRAGMA foreign_keys = ON;");
 
 const fs = require('fs');
 const MazeModel = require('./mazes_model.js'), UserModel = require('./users_model.js')
+exports.isAdmin = function (req,res ,next){
+  try{
+    const id = req.session.passport.user
+    if(UserModel.isValidUser(id, UserModel.getUsers())){
+      UserModel.isAdmin(id) ? next() : res.redirect('/mazes')
+    }else{
+      res.redirect('/login')
+      throw 'Not logged in. Access not granted.'
+    }
+  }catch{
+    res.redirect('/login')
+    throw 'Not logged in. Access not granted.'
+  }
+}
+
 exports.isLogged = function(req, res, next){
   try{
     const id = req.session.passport.user

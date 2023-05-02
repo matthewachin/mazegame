@@ -15,6 +15,8 @@ const cookie_secret = AllModel.createMazeID([], 64)
 
 //..............Create an Express server object..................//
 const app = express();
+let server = require('http').Server(app);
+let io = require('socket.io')(server);
 
 //..............Apply Express middleware to the server object....//
 app.use(express.json()); //Used to parse JSON bodies (needed for POST reqs)
@@ -41,6 +43,9 @@ app.use(require('./controllers/auth'));
 app.use(require('./controllers/mazes_controller'));
 app.use(require('./controllers/users_controller'));
 app.use(require('./controllers/games_controller'));
+app.use(require('./controllers/log_controller'));
+let socketapi = require('./controllers/socketConnections');
+socketapi.io.attach(server);//attach sockets to the server
 
 app.use("", (req, res)=>{
   res.status(404);
