@@ -25,12 +25,7 @@ function mazeSolved(userPath){
       e.innerHTML = maze.highestscorer
     })
   }
-  console.log(JSON.stringify({
-    id:maze.id,
-    highscore:maze.highscore,
-    highestscorer:maze.highestscorer,
-    solves:maze.solves,
-  }))
+  
   const response = fetch('/mazes/play', {
     method: 'POST',
     headers: {
@@ -56,6 +51,7 @@ function mazeSolved(userPath){
   document.getElementById('random-button').classList.remove('hidden')
   resultsModal.show()
   maze.revealSolution()
+  maze.editClassAll('hoverCell', false)
   disableControls()
 }
 

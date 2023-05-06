@@ -1,6 +1,29 @@
 <%- include('../partials/head.ejs') %>
+<% if(game){%>
+  <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+<%}%>
 <body>
   <%- include('../partials/nav.ejs') %>
+  
+  <div id="center-title-div">
+    <% if (!game){ %>
+      <div class="solve-offset-container"></div>
+        <h3 class='main-title' id="maze-title">MAZE TITLE</h3>
+        <h3 class='main-title' id="timer">00:00:00</h3>
+    <% } else { %>
+      <div class="progress-outline">
+        <div id="player-progress-bar" class="progress-bar"></div>
+        <div class="progress-label">You (<span id="player-progress">0</span>%)</div>
+      </div>
+      <div class="progress-outline progress2">
+        <div id="opponent-progress-bar" class="progress-bar"></div>
+        <div class="progress-label">Opponent (<span id="opponent-progress">0</span>%)</div>
+      </div>
+        
+        <!-- <h3 class='main-title' id="maze-title">Race 1 vs. 1: 5 - 20x20</h3> -->
+      
+    <% } %>
+  </div>
   <div class="editor-settings-div">
     <div class="editor-settings-row">
       <div class="logo-menu-div row-section">
@@ -14,16 +37,6 @@
           <h1 class="main-title main-logo-title">MazeLabs</h1>
         </div>
       </div>
-      <% if (!game){ %>
-        <div class="row-section">
-          <h3 class='main-title' id="maze-title">MAZE TITLE</h3>
-          <h3 class='main-title' id="timer">00:00:00</h3>
-        </div>
-      <% } else { %>
-        <div class="row-section">
-          <h3 class='main-title' id="maze-title">Race 1 vs. 1 - 20x20</h3>
-        </div>
-      <% } %>
       <div class="finish-buttons row-section">
         <button type="button" class="myButton lightpurpleButton" id="editor-settings-button">Show Settings</button>
         <% if(!game){ %>
@@ -107,10 +120,33 @@
       </div>
     </div>
   <% } %>
-  <div id="main-grid-div"><table id="main-grid"></table></div>
+  <% if (game) { %>
+    <div id="game-body">
+      <img src="/images/bgMaze.png" id="background-image">
+      <div class="login-card">
+        <h2 class="profile-header" id="game-card-title">Waiting for Players...</h2>
+        <p id="login-disclaimer">Share the link with your friends.</p>
+        <button class="hidden myButton limegreenButton" id="ready-button">Ready</button>
+        <div id="game-link-div">
+          <h6 id="game-link">http://localhost:3000/play/<%=gameCode%></h6>
+          <div class="copyIconDiv">
+            <svg class="copyIcon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="main-grid-div" class="hidden"><table id="main-grid"></table></div>
+  <% }else{ %>
+    <div id="main-grid-div"><table id="main-grid"></table></div>
+  <% } %>
   <script>
-    let user = <%- JSON.stringify(user) %>
-    let mazeinfo = <%- JSON.stringify(mazeinfo) %>
+    let user = <%- JSON.stringify(user) %>;
+    <% if(!game) { %>
+      let mazeinfo = <%-JSON.stringify(mazeinfo)%>;
+    <%}%>
   </script>
   <%- include('../partials/universal-scripts.ejs') %>
   <script src="/js/solve/solve-controls.js"></script>
@@ -119,9 +155,11 @@
     <script src="/js/solve/solve-functions.js"></script>
     <script src="/js/solve/solve.js"></script>
   <%}else{ %>
-    <script src="/js/solve/game-solve-settings.js"></script>
-    <script src="/js/solve/game-solve-functions.js"></script>
-    <script src="/js/solve/game-solve.js"></script>
+    <!-- <script src="/socket.io/socket.io.js"></script> -->
+    <script src="/js/game/game-solve-socket.js"></script>
+    <script src="/js/game/game-solve-settings.js"></script>
+    <script src="/js/game/game-solve-functions.js"></script>
+    <script src="/js/game/game-solve.js"></script>
   <%}%>
 </body>
 <%- include('../partials/footer.ejs') %>

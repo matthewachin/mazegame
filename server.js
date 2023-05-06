@@ -25,6 +25,8 @@ app.use(express.static('public')); //specify location of static assests
 app.set('views', __dirname + '/views'); //specify location of templates
 app.set('view engine', 'ejs'); //specify templating library
 
+
+
 app.use(session({
   resave: false,
   saveUninitialized: true,
@@ -44,8 +46,12 @@ app.use(require('./controllers/mazes_controller'));
 app.use(require('./controllers/users_controller'));
 app.use(require('./controllers/games_controller'));
 app.use(require('./controllers/log_controller'));
-let socketapi = require('./controllers/socketConnections');
-socketapi.io.attach(server);//attach sockets to the server
+
+const port = process.env.PORT || 3000;
+app.set('port', port)
+
+let socketapi =require('./controllers/socketConnections');
+socketapi.io.attach(server);
 
 app.use("", (req, res)=>{
   res.status(404);
@@ -58,7 +64,7 @@ app.use("", (req, res)=>{
 });
 
 //..............Start the server...............................//
-const port = process.env.PORT || 3000;
+// const port = process.env.PORT || 3000;
 app.listen(port, function() {
   console.log('Server started at http://localhost:'+port+'.')
 });

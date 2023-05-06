@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "open http://localhost:3000 && cd data && sqlite3 log.db < schema.sql && node seeds.js && cd .. && node server.js"
+    "start": "open http://localhost:4000 && cd data && sqlite3 log.db < schema.sql && node seeds.js && cd .. && node server.js"
   },
   "author": "",
   "license": "ISC",
@@ -17,8 +17,7 @@
     "fs": "^0.0.1-security",
     "passport": "^0.6.0",
     "passport-google-oauth": "^2.0.0",
-    "sass": "^1.57.0",
-    "socket.io": "^4.6.1",
+    "socket.io": "^4.4.1",
     "sqlite3": "^5.1.6"
   }
 }

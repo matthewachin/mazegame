@@ -58,3 +58,11 @@ function isIDExists(id, ids){
 function randomInt(max, min=0){
   return Math.floor(Math.random()*max) + min
 }
+exports.generateID = (length)=>{
+  const char = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  let id = ''
+  for(let i = 0; i < length; i++){
+    id += char[randomInt(62)]
+  }
+  return id
+}
