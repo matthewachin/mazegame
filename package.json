@@ -5,12 +5,11 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "open http://localhost:4000 && cd data && sqlite3 log.db < schema.sql && node seeds.js && cd .. && node server.js"
+    "start": "open http://localhost:3000 && cd data && sqlite3 log.db < schema.sql && node seeds.js && cd .. && node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cookie-parser": "^1.4.6",
     "ejs": "^3.1.8",
     "express": "^4.18.2",
     "express-session": "^1.17.3",

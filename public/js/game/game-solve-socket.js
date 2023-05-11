@@ -3,7 +3,7 @@ let settings;
 let mazes;
 
 
-const socket = io(window.location.href.slice(window.location.href.length-20));
+const socket = io('/');
 console.log(window.location.href.slice(window.location.href.length-20)); //the default namespace
 
 socket.emit("connectionEvent", { 
