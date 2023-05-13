@@ -1,8 +1,8 @@
-let myMazeSolve;
+let myMazeSolve = 0;
 function mazeSolved(userPath){
   disableControls()
   socket.emit('solvedMaze', {
-    userID: user.id,
+    userID: userID,
     gameCode: getCode(),
     mazeSolved: myMazeSolve
   })
@@ -11,8 +11,8 @@ function mazeSolved(userPath){
     loadNewMaze(mazes[myMazeSolve+1])
   }
   myMazeSolve++
-  const val = Math.round((myMazeSolve)/settings.count)
-  document.getElementById('player-progress') = val
+  const val = Math.round((myMazeSolve)/settings.maze_count*100)
+  document.getElementById('player-progress').innerHTML = val
   document.getElementById('player-progress-bar').style.width = `${val}%`
   // INSERT LOGIC TO GRAB NEW MAZE, LOAD IT, & UPDATE SCORE BAR
 }

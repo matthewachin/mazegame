@@ -370,8 +370,11 @@ table{
   border: none;
   color: var(--mainText);
   width: 4rem;
-  border-bottom: .1rem solid var(--lightPurple);
-  border-radius: 5px;
+  /* border-bottom: .1rem solid var(--lightPurple); */
+  border: .09rem solid var(--neonBlue);
+  border-radius: .2rem;
+  padding: 0rem .25rem;
+  font-weight: 300;
   /* transition: width .7s ease-in-out; */
 }
 
@@ -392,10 +395,10 @@ table{
 }
 .myTextLabel{
   border: none;
-  color: var(--lightPurple);
+  color: var(--neonBlue);
   background-color: transparent;
   position: absolute;
-  transform: translate(0, 1.7rem);
+  transform: translate(.02rem, 1.7rem);
   /* border: .05rem solid red; */
   font-size: .8rem;
 }
@@ -659,11 +662,12 @@ table{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-bottom: 20vh;
-  margin-top: 2rem;
+  /* padding-bottom: 2rem; */
+  margin-top: 0rem;
   /* background-color: var(--darkerBackground); */
-  padding: 3rem 10rem;
-  box-shadow: 0px 0px 3rem black;
+  padding: 2rem 10rem;
+  /* box-shadow: 0px 0px 0rem black; */
+  /* outline:1px solid white; */
   width: auto; 
 }
 #maze-list{
@@ -713,6 +717,9 @@ table{
 }
 .pendingTextColor{
   color: var(--pending);
+}
+.closeTextColor{
+  color: var(--close);
 }
 .mazes-row:hover{
   background-color: var(--lighterBackground);
@@ -1187,6 +1194,10 @@ table{
   /* transform: translateY(2.2rem);  */
   
 }
+#maze-title-inp{
+  width: 10rem;
+  margin:0;
+}
 .hor-nav{
   position: absolute;
   z-index: 9;
@@ -1312,7 +1323,7 @@ table{
 .gamemodes-section{
   display: flex;
   flex-direction: column;
-  width: 30vw;
+  width: 30rem;
   padding: 5rem 5vw;
   /* border: 2px solid red; */
   margin: 3rem auto;
@@ -1333,13 +1344,31 @@ table{
   justify-content: center;
 
 }
+.gamemodes-col{
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center;
+  align-items: center; */
+  /* outline: 1px solid green; */
+  
+}
 .gamemodes-header{
   text-align: center;
   width: 100%;
   color: var(--mainText);
+  
 }
 .gamemodes-desc{
-  color: var(--path);
+  /* border: 1px solid purple; */
+  font-size: 1rem;
+  color: var(--close);
+  width: 9rem;
+  margin: 0;
+  padding: 0;
+}
+.gamemodes-desc-val{
+  color: var(--wall);
+  
 }
 
 /* GAME PAGE */
@@ -1387,12 +1416,14 @@ table{
   /* color: var(--save); */
   background-color: var(--wall);
   color: var(--background);
-  transition: all .5s ease-in-out;
+  /* transition: all .5s ease-in-out; */
 }
-.copyIconDiv:hover{
+.copyIconDiv:active{
   /* background-color: var(--save); */
-  background-color: var(--path);
+  /* background-color: var(--path); */
+  background-color: var(--save);
 }
+
 #ready-button{
   padding: .5rem 2rem;
   margin:0;
@@ -1431,4 +1462,79 @@ table{
 }
 .progress-label{
   color:var(--black);
+}
+
+#log-params-options{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%
+}
+.logLabel{
+  transform: translateY(2.3rem)
+}
+.logTextInp{
+  width: 12vw;
+}
+#log-params-options-row{
+  padding: 1.5rem 1rem 0rem 1rem;
+}
+.log-head{
+  font-size: 1rem;
+  padding:.6rem;
+}
+.log-data{
+  font-size: 1rem;
+  padding:.6rem;
+}
+
+.log-link{
+  max-width: 12.5rem;
+  overflow-wrap: break-word;
+}
+.gamemodes-choice{
+  display:flex;
+  flex-direction: row;
+  width:30rem;
+  /* border: 1px solid red; */
+  justify-content: center;
+}
+.mySlider {
+  -webkit-appearance: none;
+  width: 15rem;
+  height: .5rem;
+  background: var(--black);
+  outline: none;
+  border: .1rem solid var(--neonBlue);
+  border-radius: 1rem;
+  transform: translateY(.6rem);
+  margin: 0 1rem;
+}
+
+
+/* for chrome/safari */
+.mySlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: .75rem;
+  height: 1.75rem;
+  background: var(--black);
+  cursor: pointer;
+  border: .1rem solid var(--neonBlue);
+  border-radius: .4rem;
+  /* transform: translateY(1rem); */
+}
+
+.mySliderLabel{
+  color:white;
+  width: 4.3rem;
+  /* border: 1px solid red; */
+}
+.mySliderValueLabel{
+  color:white;
+  width: 1rem;
+}
+#gamemodes-submit{
+  width: 8rem;
+  height: 2.6rem
 }

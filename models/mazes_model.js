@@ -32,4 +32,16 @@ exports.createMaze = function(mazeObj){
   }
 }
 
+exports.deleteMaze = (id, userID, massDelete=false)=>{
+  let mazeList = JSON.parse(fs.readFileSync('data/mazeList.json'))
+  const ind = mazeList.indexOf(id)
+  ind > -1 ? mazeList.splice(ind, 1) : null
+  fs.writeFileSync(`data/mazeList.json`, JSON.stringify(mazeList))
+  fs.unlinkSync(`data/mazes/${id}_MAZE.json`)
+  if(!massDelete){
+    let userData = UserModel.getUser(userID)
+    userData.mazes.splice(userData.mazes.indexOf(mazeID), 1)
+    UserModel.writeUser(userID, userData)
+  }
+}
 

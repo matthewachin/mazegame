@@ -2,6 +2,9 @@ const express = require('express'), app = express.Router()
 const MazeModel = require('../models/mazes_model.js'), UserModel = require('../models/users_model.js'), AllModel = require('../models/all_model.js'), LogModel = require('../models/log_model.js')
 
 app.get('/users/new', AllModel.isLogged, (req, res)=>{
+  try{
+    LogModel.writeLog(req.session.passport.user, "GET",  `/users/new`)
+  }catch{}
   res.setHeader('Content-Type', 'text/html')
   res.render("user/create", {
     nav: 'simple',
@@ -21,6 +24,9 @@ app.post('/users/new', (req, res)=>{
 })
 
 app.get('/users/me', AllModel.isLogged, (req, res)=>{
+  try{
+    LogModel.writeLog(req.session.passport.user, "GET",  `/users/me`)
+  }catch{}
   const userID = req.session.passport.user
   const userData = UserModel.getUser(userID)
   let mazes = userData.mazes
@@ -43,9 +49,18 @@ app.get('/users/me', AllModel.isLogged, (req, res)=>{
   })
 })
 
-
+app.post('/users/delete', (req,res)=>{
+  try{
+    LogModel.writeLog(req.session.passport.user, "POST",  `/users/delete`)
+  }catch{}
+  UserModel.deleteUser(req.session.passport.user)
+  res.send(JSON.stringify('Successfully deleted user.'))
+})
 
 app.post('/users/me', (req, res)=>{
+  try{
+    LogModel.writeLog(req.session.passport.user, "POST",  `/users/me`)
+  }catch{}
   try{
     const changes = req.body
     const userID = req.session.passport.user

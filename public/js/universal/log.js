@@ -1,7 +1,9 @@
 window.addEventListener('click', function(e){
+  // console.log(e)
   const data = {
     type: 'click',
-    current_link: window.location.href
+    current_link: window.location.pathname + window.location.search + window.location.hash,
+    description: e.target.id ? `ID: ${e.target.id}` : "ID doesn't exist"
   }
   const response = fetch('/log/update', {
     method: 'POST',

@@ -1,5 +1,22 @@
 let usernameChange = false
 
+document.getElementById('profile-delete').addEventListener('click', ()=>{
+  fetch('/users/delete', {
+    method: 'POST',
+    headers: {
+      'Content-Type' : 'application/json',
+    },
+  })
+  .then((response)=>response.json())
+  .then((data) => {
+    console.log('SERVER RESPONSE:', data);
+    window.location.href ='/logout'
+  })
+  .catch((error) => {
+    console.error('SERVER RESPONSE (ERROR):', error);
+  });
+})
+
 document.getElementById('profile-username').addEventListener('keyup',()=>usernameChange=true)
 
 let gridLines = userData.settings.grid_lines

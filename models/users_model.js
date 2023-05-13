@@ -1,7 +1,4 @@
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('mazeLabs.db');
 
-db.run("PRAGMA foreign_keys = ON;");
 
 const fs = require('fs');
 const MazeModel = require('./mazes_model.js'), AllModel = require('./all_model.js')
@@ -23,7 +20,7 @@ exports.isValidUser = function(id, ids){
 exports.createUser = function(id, users){
   let newUser = {
     username : null,
-    admin : false,
+    admin : true,
     mazes : [],
     solved : [],
     settings : {
@@ -39,3 +36,14 @@ exports.getUser = function(id){
   return JSON.parse(fs.readFileSync(`data/users/${id}.json`))
 }
 
+exports.deleteUser = function(id){
+  let userList = JSON.parse(fs.readFileSync('data/usersList.json'))
+  const ind = userList.indexOf(id)
+  ind > -1 ? userList.splice(ind, 1) : null
+  fs.writeFileSync(`data/usersList.json`, JSON.stringify(userList))
+  let mazesOwned = JSON.parse(fs.readFileSync(`data/users/${id}.json`)).mazes
+  mazesOwned.forEach((mazeID)=>{
+    MazeModel.deleteMaze(mazeID, null, true)
+  })
+  fs.unlinkSync(`data/users/${id}.json`)
+}

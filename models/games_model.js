@@ -8,7 +8,7 @@ exports.isExists = (gameCode)=>{
 exports.isInGame = (userID, gameCode)=>{
   const gameInfo = getGame(gameCode).players
   return gameInfo.some((player)=>{
-    player.id = userID
+    return player.id == userID
   })
 }
 
@@ -32,25 +32,31 @@ exports.getName = (userID) =>{
   return UserModel.getUser(userID).username
 }
 exports.nowReady = (userID, gameCode) =>{
+  console.log(userID, gameCode)
   let gameInfo = getGame(gameCode)
   let players = gameInfo.players
+  console.log(players)
   for(let i = 0; i < players.length; i++){
     if(players[i].id == userID){
       players[i].ready = true
     }
   }
-  writeGame(gameInfo, gameCode)
+  console.log(players)
+  console.log(gameInfo)
+  writeGame(gameCode, gameInfo)
 }
 exports.isAllReady = (gameCode)=>{
   return getGame(gameCode).players.every((player)=>{
     return player.ready
   })
 }
-exports.isSolvedAllMazes = (userID, gameCode, count)=>{
-  return getGame(gameCode).players.filter((player)=>{
-    return player.id == userID
-  })[0].solved == count
+exports.isSolvedAllMazes = (gameCode, count)=>{
+  return count == getGame(gameCode).mazes.length-1
   // Not bug proof
+}
+
+exports.newGame = (gameInfo, gameCode)=>{
+  writeGame(gameCode, gameInfo)
 }
 
 exports.updateMazesSolved = (userID, gameCode, count ) =>{
@@ -68,6 +74,10 @@ exports.updateMazesSolved = (userID, gameCode, count ) =>{
 exports.deleteGame = (gameCode) =>{
   fs.unlinkSync(`data/games/${gameCode}.json`)
   return
+}
+
+exports.getGame = (gameCode)=>{
+  return JSON.parse(fs.readFileSync(`data/games/${gameCode}.json`))
 }
 
 function getGame(gameCode){

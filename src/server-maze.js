@@ -291,7 +291,7 @@ class Cell {
 
 
 function generatePrimMazeInstant(row, col) {
-
+  console.log(row, col,)
   let grid = generateGrid(row, col)
   // console.log(grid)
   let startingCell = grid[0][0]

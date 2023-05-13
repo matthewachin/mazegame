@@ -1,5 +1,5 @@
 let mouseDown;
-let lastHoverCell;
+let lastHoverCell = null;
 let isDrawing;
 let solveControls_entrances;
 let userPathForward;

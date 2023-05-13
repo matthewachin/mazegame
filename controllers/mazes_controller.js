@@ -3,6 +3,9 @@ const MazeModel = require('../models/mazes_model.js'), UserModel = require('../m
 const fs = require('fs')
 
 app.get('/mazes/new', AllModel.isLogged, (req, res)=>{
+  try{
+    LogModel.writeLog(req.session.passport.user, "GET",  `/mazes/new`)
+  }catch{}
   res.status(200)
   res.setHeader('Content-Type', 'text/html')
   const id = req.session.passport.user
@@ -15,6 +18,9 @@ app.get('/mazes/new', AllModel.isLogged, (req, res)=>{
 })
 
 app.post('/mazes/new', (req, res) => {
+  try{
+    LogModel.writeLog(req.session.passport.user, "POST",  `/mazes/new`)
+  }catch{}
   try{
     const userID = req.session.passport.user
     let userData = UserModel.getUser(userID)
@@ -30,6 +36,9 @@ app.post('/mazes/new', (req, res) => {
 })
 
 app.get('/mazes/play/:mazeID', AllModel.isLogged, (req, res)=>{
+  try{
+    LogModel.writeLog(req.session.passport.user, "GET",  `/mazes/play/${req.params.mazeID}`)
+  }catch{}
   try{
     const mazeID = req.params.mazeID
     res.status(200)
@@ -50,6 +59,9 @@ app.get('/mazes/play/:mazeID', AllModel.isLogged, (req, res)=>{
 
 app.post('/mazes/play', AllModel.isLogged, (req, res)=>{
   try{
+    LogModel.writeLog(req.session.passport.user, "POST",  `/mazes/play`)
+  }catch{}
+  try{
     const userID = req.session.passport.user
     const requestData = req.body
     const MazeID = requestData.id
@@ -57,7 +69,7 @@ app.post('/mazes/play', AllModel.isLogged, (req, res)=>{
     for(property in requestData){
       mazeSavedData[property] = requestData[property]
     }
-    fs.writeFileSync(`data/mazes/${MazeID}_MAZE.json`, JSON.stringify(mazeSavedData))
+    MazeModel.writeMaze(MazeID, mazeSavedData)
     let userInfo = UserModel.getUser(userID)
     userInfo.solved.push(MazeID)
     UserModel.writeUser(userID, userInfo)
@@ -69,6 +81,9 @@ app.post('/mazes/play', AllModel.isLogged, (req, res)=>{
 })
 
 app.get('/mazes', AllModel.isLogged, (req, res)=>{
+  try{
+    LogModel.writeLog(req.session.passport.user, "GET",  `/mazes`)
+  }catch{}
   let count = req.query.count == null ? 25 : req.query.count
   try{
     let mazeIds = MazeModel.getMazeIDs()
@@ -110,24 +125,19 @@ app.get('/mazes', AllModel.isLogged, (req, res)=>{
 
 app.post('/mazes/delete', (req,res)=>{
   try{
+    LogModel.writeLog(req.session.passport.user, "POST",  `/mazes/delete`)
+  }catch{}
+  try{
     console.log('received')
     const mazeID = req.body.id
     const userID = req.session.passport.user
     let userData = UserModel.getUser(userID)
-    console.log('a')
+    
     if(userData.mazes.includes(mazeID)){
-      console.log('z')
-      let MazeIDs = MazeModel.getMazeIDs()
-      console.log('b')
-      MazeIDs.splice(MazeIDs.indexOf(mazeID), 1)
-      userData.mazes.splice(userData.mazes.indexOf(mazeID), 1)
-      console.log('c')
-      fs.writeFileSync('data/mazeList.json', JSON.stringify(MazeIDs))
-      fs.unlinkSync(`data/mazes/${mazeID}_MAZE.json`)
-      console.log('d')
-      UserModel.writeUser(userID, userData)
+      
+      MazeModel.deleteMaze(mazeID,userID, false)
       res.status(200)
-      console.log('e')
+    
       res.send(JSON.stringify('success'))
     }else{
       res.status(400)

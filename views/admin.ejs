@@ -18,6 +18,31 @@
         </div>
       </div>
     </div>
+    <div class="editor-settings-row" id="log-params-options-row">
+      <form id="log-params-options">
+        <div class="text-input-div">
+          <label class='myTextLabel logLabel' for="date">Timestamp (YYYY-MM-DD)</label>
+          <input class='myText logTextInp' type="text" id="date" name="date" value="<%=_time ? _time : ''%>">
+        </div>
+        <div class="text-input-div">
+          <label class='myTextLabel logLabel' for="user_id">User ID</label>
+          <input class='myText logTextInp' type="text" id="user_id" name="user_id" value="<%=user_id ? user_id : ''%>">
+        </div>
+        <div class="text-input-div">
+          <label class='myTextLabel logLabel' for="event_type">Event Type</label>
+          <input class='myText logTextInp' type="text" id="event_type" name="event_type" value="<%=event_type ? event_type : ''%>">
+        </div>
+        <div class="text-input-div">
+          <label class='myTextLabel logLabel' for="current_link">Link</label>
+          <input class='myText logTextInp' type="text" id="current_link" name="current_link" value="<%=current_link ? current_link : ''%>">
+        </div>
+        <div class="text-input-div">
+          <label class='myTextLabel logLabel' for="limit">Limit</label>
+          <input class='myText logTextInp' type="text" id="limit" name="limit" value="<%=limit ? limit : ''%>">
+        </div>
+        <button type="submit" class="myButton limegreenButton" id="submit-log-params">Comfirm</button>
+      </form>
+    </div>
   </div>
   <div id="main-div">
     <!-- <div class="list-info">
@@ -34,19 +59,21 @@
       <br> -->
       <table id="maze-list">
         <tr class="maze-list-row maze-list-header-row">
-          <td class="maze-list-data maze-list-header">Timestamp</td>
-          <td class="maze-list-data maze-list-header">User ID</td>
-          <td class="maze-list-data maze-list-header">User Type</td>
-          <td class="maze-list-data maze-list-header">Event Type</td>
-          <td class="maze-list-data maze-list-header">Link</td>
+          <td class="log-head maze-list-data maze-list-header">Timestamp</td>
+          <td class="log-head maze-list-data maze-list-header">User ID</td>
+          <td class="log-head maze-list-data maze-list-header">User Type</td>
+          <td class="log-head maze-list-data maze-list-header">Event Type</td>
+          <td class="log-head maze-list-data maze-list-header">Link</td>
+          <td class="log-head maze-list-data maze-list-header">Description</td>
         </tr>
         <% for(let i = 0; i < data.length; i++){ %>
           <tr class="maze-list-row mazes-row" id='<%= data[i].id%>'">
-            <td class="maze-list-data maze-list-title"><%= data[i]._time %></td>
-            <td class="maze-list-data blueTextColor"><%= data[i].user_id %></td>
-            <td class="maze-list-data pathTextColor"><%= data[i].user_type %></td>
-            <td class="maze-list-data pendingTextColor"><%= data[i].event_type %></td>
-            <td class="maze-list-data"><%= data[i].current_link %></td>
+            <td class="log-time log-data maze-list-data maze-list-title"><%= data[i]._time %></td>
+            <td class="log-id log-data maze-list-data blueTextColor"><%= data[i].user_id %></td>
+            <td class="log-utype log-data maze-list-data pathTextColor"><%= data[i].user_type %></td>
+            <td class="log-event-type log-data maze-list-data pendingTextColor"><%= data[i].event_type %></td>
+            <td class="log-link log-data maze-list-data closeTextColor"><%= data[i].current_link %></td>
+            <td class="log-desc log-data maze-list-data"><%= data[i].event_description %></td>
           </tr>
         <% } %>
       </table>

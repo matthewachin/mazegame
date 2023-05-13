@@ -6,7 +6,8 @@ CREATE TABLE log (
   user_type TEXT NOT NULL, 
   _time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   event_type TEXT NOT NULL DEFAULT 'click',
-  current_link TEXT NOT NULL
+  current_link TEXT NOT NULL,
+  event_description TEXT
 );
 
 -- DROP TABLE IF EXISTS mazes;

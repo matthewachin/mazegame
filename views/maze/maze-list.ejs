@@ -1,7 +1,7 @@
 <%- include('../partials/head.ejs') %>
 <body>
   <div id="center-title-div">
-    <h1 class='main-title'id="center-title">Maze List</h1>
+    <h1 class='main-title'id="center-title">Select a Maze to Solve</h1>
   </div>
   <%- include('../partials/nav.ejs') %>
   <div class="editor-settings-div">
@@ -17,6 +17,9 @@
           <h1 class="main-title main-logo-title">MazeLabs</h1>
         </div>
       </div>
+      <div class="row-section">
+        <button class="myButton limegreenButton" id="create-maze-button" onclick="window.location.href='/mazes/new'">Create a Maze</button>
+      </div>
     </div>
   </div>
   <div id="main-div">
@@ -29,11 +32,6 @@
     </div> -->
     <div id="maze-list-div">
       <!-- <h3 class="main-title" id="maze-list-title">Maze List</h3> -->
-      <h1 class="info-card-title maze-hub-title">Select a Maze to Solve</h1>
-      <a id='create-link' href="/mazes/new">or</a>
-      <button class="myButton limegreenButton" id="create-maze-button" onclick="window.location.href='/mazes/new'">Create a Maze</button>
-      <br>
-      <br>
       <table id="maze-list">
         <tr class="maze-list-row maze-list-header-row">
           <td class="maze-list-data maze-list-header">Title</td>

@@ -22,18 +22,46 @@
   <div class="gamemodes-sections">
     <div class='gamemodes-section'>
       <div class='gamemodes-row'>
-        <h2 class='gamemodes-header'>1 vs. 1 Race</h2>
+        <h2 class='gamemodes-header'>Custom Game</h2>
       </div>
       <div class='gamemodes-row'>
-        <p class="gamemodes-desc">Players race against each other to solve 5 20x20 mazes. First player to finish wins!</p>
+        <p id="login-disclaimer">Choose your own settings.</p>
+      </div>
+      <div class='gamemodes-row'>
+        <div class='gamemodes-col'>
+          <div class="gamemodes-choice">
+            <p class='mySliderLabel'>Mazes:</p>
+            <input type="range" value="5" min="1" max="25" class="mySlider" id="custom-maze-count">
+            <span id="custom-maze-count-label" class="mySliderValueLabel">5</span>
+          </div>
+          <div class="gamemodes-choice">
+            <p class='mySliderLabel'>Rows:</p>
+            <input type="range" value="20" min="10" max="50" class="mySlider" id="custom-row-count">
+            <span id="custom-row-count-label" class="mySliderValueLabel">20</span>
+          </div>
+          <div class="gamemodes-choice">
+            <p class='mySliderLabel'>Columns:</p>
+            <input type="range" value="20" min="10" max="50" class="mySlider" id="custom-col-count">
+            <span id="custom-col-count-label" class="mySliderValueLabel">20</span>
+          </div>
+          <div class="gamemodes-choice">
+            <p class='mySliderLabel'>Players:</p>
+            <input type="range" value="2" min="2" max="6" class="mySlider" id="custom-player-count">
+            <span id="custom-player-count-label" class="mySliderValueLabel">2</span>
+          </div>
+        </div>
       </div>
       <div class='gamemodes-row'>
         <div class='center-div'>
-          <button class="myButton limegreenButton" id='gamemodes-submit' onclick="window.location.href = `/games/play/<%=gameCode%>`">Start</button>
+          <button class="myButton limegreenButton" id='gamemodes-submit' onclick="callSubmit()">Start</button>
+          <script>
+             const gameCode = "<%=gameCode%>"
+          </script>
         </div>
       </div>
     </div>
   </div>
   <%- include('../partials/universal-scripts.ejs') %>
+  <script src='/js/game-list/game-list-settings.js'></script>
 </body>
 <%- include('../partials/footer.ejs') %>

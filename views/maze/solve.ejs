@@ -128,9 +128,10 @@
         <h2 class="profile-header" id="game-card-title">Waiting for Players...</h2>
         <p id="login-disclaimer">Share the link with your friends.</p>
         <button class="hidden myButton limegreenButton" id="ready-button">Ready</button>
+        <button class="hidden myButton limegreenButton" id="home-button">Return Home</button>
         <div id="game-link-div">
           <h6 id="game-link">http://localhost:3000/play/<%=gameCode%></h6>
-          <div class="copyIconDiv">
+          <div id="copyButton" class="copyIconDiv">
             <svg class="copyIcon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
               <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
               <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -147,7 +148,9 @@
     let user = <%- JSON.stringify(user) %>;
     <% if(!game) { %>
       let mazeinfo = <%-JSON.stringify(mazeinfo)%>;
-    <%}%>
+    <%} else { %>
+      let userID = <%- JSON.stringify(userID) %>;
+    <% }%>
   </script>
   <%- include('../partials/universal-scripts.ejs') %>
   <script src="/js/solve/solve-controls.js"></script>
@@ -157,86 +160,7 @@
     <script src="/js/solve/solve.js"></script>
   <%}else{ %>
     <!-- <script src="/socket.io/socket.io.js"></script> -->
-    <script>
-      let mazeSolvedCount = 0;
-let settings;
-let mazes;
-
-
-const socket = io.connect('ws://localhost:3000/');
-console.log(window.location.href.slice(window.location.href.length-20)); //the default namespace
-
-socket.emit("connectionEvent", { 
-  userID: user.id,
-  gameCode: getCode()
-});
-
-socket.on("connectionEvent",(data)=>{
-console.log(data)
-})
-
-socket.on('sendGameInfo', (data) => {
-  settings = data.settings
-  mazes = data.mazes
-})
-
-socket.on('awaitReady', (data)=>{
-  document.getElementById('game-card-title').innerHTML = "Game is Full"
-  document.getElementById('login-disclaimer').innerHTML = "Click Ready to indicate that you are ready."
-  document.getElementById('ready-button').classList.remove('hidden')
-  document.getElementById('game-link-div').classList.add('hidden')
-
-})
-
-document.getElementById('ready-button').addEventListener("click", ()=>{
-  socket.emit('readyPlayer', {
-    userID: user.id,
-    gameCode: getCode()
-  })
-  document.getElementById('ready-button').classList.add('hidden')
-  document.getElementById('login-disclaimer').innerHTML = "Waiting for other players to ready..."
-  maze.loadTable(mazes[0])
-})
-
-socket.on('gameFull', (data)=>{
-  window.location.href = "/games/modes"
-})
-
-socket.on('playerJoined', (data)=>{
-  document.getElementById('login-disclaimer').innerHTML = `${data.username} joined the game.`
-})
-
-socket.on('solveAnnounce', (data)=>{
-  
-  if(data.mazeSolved > mazeSolvedCount &&data.userID !== user.id){
-    mazeSolvedCount = data.mazeSolved
-    const val = Math.round(mazeSolvedCount/settings.count)
-    document.getElementById('opponent-progress') = val
-    document.getElementById('opponent-progress-bar').style.width = `${val}%`
-  }
-  
-})
-
-socket.on('gameStart', (data)=>{
-  document.getElementById('game-body').classList.add('reveal')
-  document.getElementById('main-grid-div').classList.remove('hidden')
-  enableDrawControls()
-})
-
-socket.on('gameComplete', (data)=>{
-  disableDrawControls()
-  document.getElementById('game-body').classList.remove('reveal')
-  document.getElementById('main-grid-div').classList.add('hidden')
-  document.getElementById('game-card-title').innerHTML = "Game Over"
-  document.getElementById('login-disclaimer').innerHTML = "Return back to the menu to select a new game"
-  // INSERT LOGIC AND CARD TO SHOW RESULTS
-})
-
-function getCode(){
-  return window.location.href.slice(window.location.href.length-8)
-}
-    </script>
-    <!-- <script src="/js/game/game-solve-socket.js"></script> -->
+    <script src="/js/game/game-solve-socket.js"></script>
     <script src="/js/game/game-solve-settings.js"></script>
     <script src="/js/game/game-solve-functions.js"></script>
     <script src="/js/game/game-solve.js"></script>

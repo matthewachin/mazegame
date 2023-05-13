@@ -10,8 +10,8 @@ const passport = require('passport');
 const { json } = require('express');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
-// const MazeModel = require('./models/mazes_model.js'), UserModel = require('./models/users_model.js'), AllModel = require('./models/all_model.js')
-// const cookie_secret = AllModel.createMazeID([], 64)
+const MazeModel = require('./models/mazes_model.js'), UserModel = require('./models/users_model.js'), AllModel = require('./models/all_model.js')
+const cookie_secret = AllModel.createMazeID([], 64)
 
 //..............Create an Express server object..................//
 const app = express();
@@ -27,25 +27,25 @@ app.set('view engine', 'ejs'); //specify templating library
 
 
 
-// app.use(session({
-//   resave: false,
-//   saveUninitialized: true,
-//   secret: cookie_secret,
-//   cookie: {
-//     maxAge : 1000 * 60 * 60 * 24 * 3 // 3 days duration
-//   } 
-// }));
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(session({
+  resave: false,
+  saveUninitialized: true,
+  secret: cookie_secret,
+  cookie: {
+    maxAge : 1000 * 60 * 60 * 24 * 3 // 3 days duration
+  } 
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.set('view engine', 'ejs');
 
-// app.use(require('./controllers/index'));
-// app.use(require('./controllers/auth'));
-// app.use(require('./controllers/mazes_controller'));
-// app.use(require('./controllers/users_controller'));
-// app.use(require('./controllers/games_controller'));
-// app.use(require('./controllers/log_controller'));
+app.use(require('./controllers/index'));
+app.use(require('./controllers/auth'));
+app.use(require('./controllers/mazes_controller'));
+app.use(require('./controllers/users_controller'));
+app.use(require('./controllers/games_controller'));
+app.use(require('./controllers/log_controller'));
 
 const port = process.env.PORT || 3000;
 app.set('port', port)
@@ -53,15 +53,18 @@ app.set('port', port)
 let socketapi =require('./controllers/socketConnections');
 socketapi.io.attach(server);
 
-// app.use("", (req, res)=>{
-//   res.status(404);
-//   res.setHeader('Content-Type', 'text/html')
-//   res.render("error", {
-//     "errorCode":"404",
-//     nav: 'simple',
-//     logged:false,
-//   });
-// });
+app.use("", (req, res)=>{
+  try{
+    LogModel.writeLog(req.session.passport.user, "UNKNOWN",  `ERROR`, "User made a request to an invalid link.")
+  }catch{}
+  res.status(404);
+  res.setHeader('Content-Type', 'text/html')
+  res.render("error", {
+    "errorCode":"404",
+    nav: 'simple',
+    logged:false,
+  });
+});
 
 //..............Start the server...............................//
 // const port = process.env.PORT || 3000;
