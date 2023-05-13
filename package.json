@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "open http://localhost:3000 && cd data && sqlite3 log.db < schema.sql && node seeds.js && cd .. && node server.js"
+    "start": "cd data && sqlite3 log.db < schema.sql && node seeds.js && cd .. && node server.js"
   },
   "author": "",
   "license": "ISC",

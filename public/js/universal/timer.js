@@ -1,6 +1,8 @@
 class Timer{
   constructor(id='timer', countdown= false, startTime=0){
-    this.e = document.getElementById(id)
+    if(id){
+      this.e = document.getElementById(id)
+    }
     this.start = Date.now()
     this.interval = null
   }
