@@ -134,10 +134,11 @@ app.post('/mazes/delete', (req,res)=>{
     let userData = UserModel.getUser(userID)
     
     if(userData.mazes.includes(mazeID)){
-      
+      userData.mazes.splice(userData.mazes.indexOf(mazeID), 1)
+      UserModel.writeUser(userID, userData)
       MazeModel.deleteMaze(mazeID,userID, false)
       res.status(200)
-    
+      
       res.send(JSON.stringify('success'))
     }else{
       res.status(400)
