@@ -6,6 +6,17 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const keys =require('../config/keys.json')
 const GOOGLE_CLIENT_ID = keys.GOOGLE_CLIENT_ID , GOOGLE_CLIENT_SECRET = keys.GOOGLE_CLIENT_SECRET
 const MazeModel = require('../models/mazes_model.js'), UserModel = require('../models/users_model.js'), AllModel = require('../models/all_model.js')
+const cookie_secret = AllModel.createMazeID([], 64)
+app.use(session({
+  resave: false,
+  saveUninitialized: true,
+  secret: cookie_secret,
+  cookie: {
+    maxAge : 1000 * 60 * 60 * 24 * 3 // 3 days duration
+  } 
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 passport.use(new GoogleStrategy({

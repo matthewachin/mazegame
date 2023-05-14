@@ -11,7 +11,6 @@ const { json } = require('express');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const MazeModel = require('./models/mazes_model.js'), UserModel = require('./models/users_model.js'), AllModel = require('./models/all_model.js')
-const cookie_secret = AllModel.createMazeID([], 64)
 
 //..............Create an Express server object..................//
 const app = express();
@@ -24,21 +23,6 @@ app.use(express.urlencoded());
 app.use(express.static('public')); //specify location of static assests
 app.set('views', __dirname + '/views'); //specify location of templates
 app.set('view engine', 'ejs'); //specify templating library
-
-
-
-app.use(session({
-  resave: false,
-  saveUninitialized: true,
-  secret: cookie_secret,
-  cookie: {
-    maxAge : 1000 * 60 * 60 * 24 * 3 // 3 days duration
-  } 
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.set('view engine', 'ejs');
 
 app.use(require('./controllers/index'));
 app.use(require('./controllers/auth'));
